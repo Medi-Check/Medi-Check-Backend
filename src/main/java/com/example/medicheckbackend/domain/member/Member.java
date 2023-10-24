@@ -1,4 +1,4 @@
-package com.example.medicheckbackend.domain;
+package com.example.medicheckbackend.domain.member;
 
 import com.example.medicheckbackend.global.common.BaseTimeEntity;
 import jakarta.persistence.Column;
@@ -25,5 +25,10 @@ public class Member extends BaseTimeEntity {
     private UUID id;
     private String nickName;
     private String familyCode;
+
+    public Member(String nickName, String familyCode){
+        this.nickName = nickName;
+        this.familyCode = familyCode;
+    }
 
 }
