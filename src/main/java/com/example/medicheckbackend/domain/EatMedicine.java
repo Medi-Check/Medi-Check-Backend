@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class CheckMedicine extends BaseTimeEntity {
+public class EatMedicine extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +25,5 @@ public class CheckMedicine extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private TakeMedicine takeMedicine;
 
-    private boolean check;
+    private boolean checked;
 }

@@ -1,7 +1,7 @@
 package com.example.medicheckbackend.repository;
 
-import com.example.medicheckbackend.domain.CheckMedicine;
+import com.example.medicheckbackend.domain.EatMedicine;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CheckMedicineRepository extends JpaRepository<CheckMedicine, Long> {
+public interface CheckMedicineRepository extends JpaRepository<EatMedicine, Long> {
 }
