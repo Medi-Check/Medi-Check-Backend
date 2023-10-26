@@ -36,5 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 
-src/main/java/resources/application.yml
-src/main/java/resources/email.properties
+src/main/resources/application.yml
+src/main/resources/email.properties
