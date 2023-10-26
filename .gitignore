@@ -37,3 +37,4 @@ out/
 .vscode/
 
 src/main/java/resources/application.yml
+src/main/java/resources/email.properties
