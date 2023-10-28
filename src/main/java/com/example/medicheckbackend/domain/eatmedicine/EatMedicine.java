@@ -1,4 +1,4 @@
-package com.example.medicheckbackend.domain;
+package com.example.medicheckbackend.domain.eatmedicine;
 
 import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
 import com.example.medicheckbackend.global.common.BaseTimeEntity;
@@ -27,4 +27,9 @@ public class EatMedicine extends BaseTimeEntity {
     private TakeMedicine takeMedicine;
 
     private boolean checked;
+
+    public EatMedicine(TakeMedicine takeMedicine, boolean checked) {
+        this.takeMedicine = takeMedicine;
+        this.checked = checked;
+    }
 }
