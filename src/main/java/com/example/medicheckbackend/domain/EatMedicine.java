@@ -1,5 +1,6 @@
 package com.example.medicheckbackend.domain;
 
+import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
 import com.example.medicheckbackend.global.common.BaseTimeEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

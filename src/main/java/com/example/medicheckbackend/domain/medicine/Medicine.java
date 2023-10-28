@@ -1,4 +1,4 @@
-package com.example.medicheckbackend.domain;
+package com.example.medicheckbackend.domain.medicine;
 
 import com.example.medicheckbackend.global.common.BaseTimeEntity;
 import jakarta.persistence.Entity;
@@ -21,4 +21,15 @@ public class Medicine extends BaseTimeEntity {
     private Long id;
 
     private String name;
+    private String makeDate;
+    private Integer amount;
+    private String information;
+
+
+    public Medicine(String name, String makeDate, Integer amount, String information) {
+        this.name = name;
+        this.makeDate = makeDate;
+        this.amount = amount;
+        this.information = information;
+    }
 }
