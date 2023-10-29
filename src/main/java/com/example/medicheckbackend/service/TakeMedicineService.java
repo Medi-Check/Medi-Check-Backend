@@ -20,7 +20,7 @@ public class TakeMedicineService {
     private final MemberRepository memberRepository;
 
     public String insertTakeMedicine(TakeMedicineInfo takeMedicineInfo){
-        Member member = memberRepository.findMemberByNickName(takeMedicineInfo.getMedicineName());
+        Member member = memberRepository.findMemberByNickName(takeMedicineInfo.getMemberName());
         Medicine medicine = medicineRepository.findByName(takeMedicineInfo.getMedicineName());
 
         TakeMedicine takeMedicine = new TakeMedicine(takeMedicineInfo.getWeek(),

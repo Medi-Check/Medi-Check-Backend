@@ -22,11 +22,11 @@ public class EatMedicineService {
     private final MemberRepository memberRepository;
 
     public String checkMedicine(EatMedicineInfo eatMedicineInfo) {
-        Member member = memberRepository.findMemberByNickName(eatMedicineInfo.getMedicineName());
+        Member member = memberRepository.findMemberByNickName(eatMedicineInfo.getMemberName());
         Medicine medicine = medicineRepository.findByName(eatMedicineInfo.getMedicineName());
 
         TakeMedicine takMedicine = takeMedicineRepository.findByWeekAndMedicineAndMember(
-                eatMedicineInfo.getWeek(), member, medicine);
+                eatMedicineInfo.getWeek(), medicine, member);
 
         EatMedicine eatMedicine = new EatMedicine(takMedicine, eatMedicineInfo.isChecked());
         eatMedicineRepository.save(eatMedicine);

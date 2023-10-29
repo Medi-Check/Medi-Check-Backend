@@ -16,7 +16,7 @@ public class MemberController{
     private final MemberService memberService;
     private final EmailService emailService;
     /**
-     * 별명 입력
+     * 유저 등록
      */
     @PostMapping("/member/nickname")
     public ResponseEntity<String> insertMember(@RequestBody MemberInfo memberInfo){

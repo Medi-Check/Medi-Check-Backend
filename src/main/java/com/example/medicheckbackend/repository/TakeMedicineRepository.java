@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TakeMedicineRepository extends JpaRepository<TakeMedicine, Long> {
 
-    TakeMedicine findByWeekAndMedicineAndMember(Weekend weekend, Member member, Medicine medicine);
+    TakeMedicine findByWeekAndMedicineAndMember(Weekend week, Medicine medicine, Member member);
 }
