@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 @Getter
@@ -22,10 +23,14 @@ public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
     private String nickName;
+
+    @NotNull
     private String familyCode;
 
-    public Member(String nickName, String familyCode){
+    public Member(String nickName, String familyCode) {
         this.nickName = nickName;
         this.familyCode = familyCode;
     }

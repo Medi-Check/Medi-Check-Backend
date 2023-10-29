@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class EmailServiceImpl implements EmailService{
+public class EmailServiceImpl implements EmailService {
     private final JavaMailSender emailSender;
 
     public static final String key = createKey();
@@ -22,9 +22,9 @@ public class EmailServiceImpl implements EmailService{
     @Override
     public String sendSimpleMessage(String to) throws Exception {
         MimeMessage message = createMessage(to);
-        try{
+        try {
             emailSender.send(message);
-        }catch (MailException es){
+        } catch (MailException es) {
             es.printStackTrace();
             throw new IllegalStateException();
         }
@@ -57,26 +57,26 @@ public class EmailServiceImpl implements EmailService{
     //이메일을 직접적으로 만드는 곳이다.
     private MimeMessage createMessage(String to)
             throws MessagingException, UnsupportedEncodingException, MessagingException {
-        MimeMessage  message = emailSender.createMimeMessage();
+        MimeMessage message = emailSender.createMimeMessage();
         message.addRecipients(Message.RecipientType.TO, to);
         message.setSubject("WoongProject 인증코드입니다");
 
-        String msgg="";
-        msgg +=  "<div style='margin:20px;'>";
-        msgg+= "<h1> 안녕하세요 MediCheck입니다. </h1>";
-        msgg+= "<br>";
-        msgg+= "<p>아래 가족 코드를 앱에 입력해주세요<p>";
-        msgg+= "<br>";
-        msgg+= "<p>감사합니다.<p>";
-        msgg+= "<br>";
-        msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
-        msgg+= "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
-        msgg+= "<div style='font-size:130%'>";
-        msgg+= "CODE : <strong>";
-        msgg+=  key+"</strong><div><br/> ";
-        msgg+= "</div>";
+        String msgg = "";
+        msgg += "<div style='margin:20px;'>";
+        msgg += "<h1> 안녕하세요 MediCheck입니다. </h1>";
+        msgg += "<br>";
+        msgg += "<p>아래 가족 코드를 앱에 입력해주세요<p>";
+        msgg += "<br>";
+        msgg += "<p>감사합니다.<p>";
+        msgg += "<br>";
+        msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        msgg += "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
+        msgg += "<div style='font-size:130%'>";
+        msgg += "CODE : <strong>";
+        msgg += key + "</strong><div><br/> ";
+        msgg += "</div>";
         message.setText(msgg, "utf-8", "html");//내용
-        message.setFrom(new InternetAddress("lympsw7@gmial.com","ParkSewoong"));//보내는 사람
+        message.setFrom(new InternetAddress("lympsw7@gmial.com", "ParkSewoong"));//보내는 사람
 
         return message;
     }

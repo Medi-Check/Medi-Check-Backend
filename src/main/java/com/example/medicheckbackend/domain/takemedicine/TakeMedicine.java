@@ -33,13 +33,17 @@ public class TakeMedicine extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Weekend week;
 
+    @NotNull
     private String time;
 
+    @NotNull
     private int amounts;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Medicine medicine;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 

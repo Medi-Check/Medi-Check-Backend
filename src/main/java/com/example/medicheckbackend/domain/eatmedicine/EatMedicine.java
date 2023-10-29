@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
 
 @Getter
 @AllArgsConstructor
@@ -23,9 +24,11 @@ public class EatMedicine extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private TakeMedicine takeMedicine;
 
+    @NotNull
     private boolean checked;
 
     public EatMedicine(TakeMedicine takeMedicine, boolean checked) {

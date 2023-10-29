@@ -10,7 +10,7 @@ public class MemberRequestDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class MemberInfo{
+    public static class MemberInfo {
         private String nickName;
         private String familyCode;
     }

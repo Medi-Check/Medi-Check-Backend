@@ -9,7 +9,7 @@ public class MemberResponseDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class MemberRes{
+    public static class MemberRes {
         private String nickName;
     }
 }

@@ -41,14 +41,13 @@ public class EmailConfig {
     }
 
     //smtp 서버 정보 설정
-    private Properties getMailProperties()
-    {
+    private Properties getMailProperties() {
         Properties pt = new Properties();
         pt.put("mail.smtp.socketFactory.port", socketPort); //포트 번호
         pt.put("mail.smtp.auth", auth); // smtp 인증
         pt.put("mail.smtp.starttls.enable", starttls); // smtp strattles 사용
         pt.put("mail.smtp.starttls.required", startlls_required);
-        pt.put("mail.smtp.socketFactory.fallback",fallback);
+        pt.put("mail.smtp.socketFactory.fallback", fallback);
         pt.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); //구글일 경우 이것을 설정해야 함
         return pt;
     }

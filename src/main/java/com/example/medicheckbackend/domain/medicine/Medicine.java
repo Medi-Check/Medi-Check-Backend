@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
 
 @Getter
 @AllArgsConstructor
@@ -20,9 +21,16 @@ public class Medicine extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String name;
+
+    @NotNull
     private String makeDate;
+
+    @NotNull
     private Integer amount;
+
+    @NotNull
     private String information;
 
 
