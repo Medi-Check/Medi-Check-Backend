@@ -1,10 +1,7 @@
 package com.example.medicheckbackend.service;
 
 import com.example.medicheckbackend.domain.medicine.Medicine;
-import com.example.medicheckbackend.domain.medicine.dto.MedicineRequestDto;
 import com.example.medicheckbackend.domain.medicine.dto.MedicineRequestDto.MedicineInfo;
-import com.example.medicheckbackend.domain.member.Member;
-import com.example.medicheckbackend.domain.member.dto.MemberRequestDto.MemberInfo;
 import com.example.medicheckbackend.repository.MedicineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

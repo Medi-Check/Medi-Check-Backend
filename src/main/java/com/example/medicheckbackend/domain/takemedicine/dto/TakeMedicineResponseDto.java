@@ -5,23 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class TakeMedicineRequestDto {
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class TakeMedicineInfo {
-        private Weekend week;
-        private String medicineName;
-        private String memberName;
-        private String time;
-        private int amounts;
-    }
+public class TakeMedicineResponseDto {
 
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class TakeMedicineWeek {
+    public static class TakeMedicineRes {
+        private String medicineName;
         private Weekend week;
-        private String memberName;
+        private String time;
+        private int amounts;
     }
 }
