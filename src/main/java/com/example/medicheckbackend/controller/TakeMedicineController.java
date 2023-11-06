@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TakeMedicineController {
 
     private final TakeMedicineService takeMedicineService;
+
     /**
      * 약 일정 등록
      */

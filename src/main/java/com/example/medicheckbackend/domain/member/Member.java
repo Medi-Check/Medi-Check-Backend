@@ -1,18 +1,15 @@
 package com.example.medicheckbackend.domain.member;
 
 import com.example.medicheckbackend.global.common.BaseTimeEntity;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.hibernate.annotations.GenericGenerator;
 
 @Getter
 @AllArgsConstructor
@@ -30,9 +27,12 @@ public class Member extends BaseTimeEntity {
     @NotNull
     private String familyCode;
 
-    public Member(String nickName, String familyCode) {
+    private String imgUrl;
+
+    public Member(String nickName, String familyCode, String imgUrl) {
         this.nickName = nickName;
         this.familyCode = familyCode;
+        this.imgUrl = imgUrl;
     }
 
 }

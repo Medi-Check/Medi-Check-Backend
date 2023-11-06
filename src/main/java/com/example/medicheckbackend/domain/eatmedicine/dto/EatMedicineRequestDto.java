@@ -1,7 +1,6 @@
 package com.example.medicheckbackend.domain.eatmedicine.dto;
 
 import com.example.medicheckbackend.domain.Weekend;
-import com.example.medicheckbackend.domain.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -11,5 +11,6 @@ public class MemberResponseDto {
     @AllArgsConstructor
     public static class MemberRes {
         private String nickName;
+        private String imgUrl;
     }
 }
