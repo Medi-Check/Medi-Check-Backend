@@ -18,8 +18,17 @@ configurations {
 }
 
 repositories {
-    mavenCentral()
+    mavenCentral() // Maven Central 저장소
+
+    // JCenter 저장소 (더 이상 업데이트 되지 않음)
+    maven { url 'https://jcenter.bintray.com' }
+
+    // aliyun 저장소 (더 이상 업데이트 되지 않음)
+    maven { url 'https://maven.aliyun.com/repository/public' }
+
+    // 필요한 다른 저장소를 추가할 수 있습니다
 }
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -29,9 +38,12 @@ dependencies {
 
     // AWS
     implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.2'
-    //implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws', version: '2.2.1.RELEASE', ext: 'pom'
+    // implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws', version: '2.2.1.RELEASE', ext: 'pom'
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.533'
     implementation 'io.awspring.cloud:spring-cloud-aws:2.4.2'
+
+    // DataHub
+    implementation 'wisepaas.datahub:edge-sdk:1.0.2'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'

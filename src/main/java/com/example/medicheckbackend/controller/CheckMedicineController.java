@@ -21,4 +21,9 @@ public class CheckMedicineController {
     public ResponseEntity<String> EatMedicine(@RequestBody EatMedicineInfo eatMedicineInfo){
         return ResponseEntity.ok(eatMedicineService.checkMedicine(eatMedicineInfo));
     }
+
+    /**
+     * 약 건강 체크
+     */
+
 }

@@ -22,6 +22,4 @@ public class MedicineController {
         return ResponseEntity.ok(medicineService.insertMedicine(medicineInfo));
     }
 
-
-
 }
