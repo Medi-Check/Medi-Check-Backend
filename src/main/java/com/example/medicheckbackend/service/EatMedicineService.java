@@ -14,6 +14,7 @@ import com.example.medicheckbackend.repository.MemberRepository;
 import com.example.medicheckbackend.repository.TakeMedicineRepository;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import wisepaas.datahub.java.sdk.model.edge.EdgeConfig;
 import wisepaas.datahub.java.sdk.model.edge.EdgeData;
@@ -52,6 +53,36 @@ public class EatMedicineService {
         EatMedicine eatMedicine = new EatMedicine(takMedicine, eatMedicineInfo.getChecked());
         eatMedicineRepository.save(eatMedicine);
         return "약 체크 완료";
+    }
+
+    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void sendSuccess() {
+        EdgeData data = new EdgeData();
+        Integer success = eatMedicineRepository.countByCheckedIsSuccess();
+        EdgeData.Tag MedicineCheck = new Tag(); {
+            MedicineCheck.DeviceId = "MediCheck";
+            MedicineCheck.TagName = "Success";
+            MedicineCheck.Value = success;
+        }
+        data.TagList.add(MedicineCheck);
+        data.Timestamp = new Date();
+        edgeAgent.SendData(data);
+    }
+
+    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void sendFail() {
+        EdgeData data = new EdgeData();
+        Integer fail = eatMedicineRepository.countByCheckedIsFail();
+        EdgeData.Tag MedicineCheck = new Tag(); {
+            MedicineCheck.DeviceId = "MediCheck";
+            MedicineCheck.TagName = "Fail";
+            MedicineCheck.Value = fail;
+        }
+        data.TagList.add(MedicineCheck);
+        data.Timestamp = new Date();
+        edgeAgent.SendData(data);
     }
 
 }

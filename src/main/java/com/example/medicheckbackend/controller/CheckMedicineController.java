@@ -4,6 +4,7 @@ import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineRequestDto
 import com.example.medicheckbackend.service.EatMedicineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,5 +26,10 @@ public class CheckMedicineController {
     /**
      * 약 건강 체크
      */
+    @GetMapping("/send")
+    public void sendTest() {
+        eatMedicineService.sendSuccess();
+        eatMedicineService.sendFail();
+    }
 
 }
