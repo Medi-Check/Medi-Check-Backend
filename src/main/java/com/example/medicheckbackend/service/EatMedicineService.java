@@ -7,7 +7,6 @@ import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineRequestDto
 import com.example.medicheckbackend.domain.medicine.Medicine;
 import com.example.medicheckbackend.domain.member.Member;
 import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
-import com.example.medicheckbackend.global.DataHub.DataHub;
 import com.example.medicheckbackend.repository.EatMedicineRepository;
 import com.example.medicheckbackend.repository.MedicineRepository;
 import com.example.medicheckbackend.repository.MemberRepository;
@@ -16,7 +15,6 @@ import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import wisepaas.datahub.java.sdk.model.edge.EdgeConfig;
 import wisepaas.datahub.java.sdk.model.edge.EdgeData;
 import wisepaas.datahub.java.sdk.model.edge.EdgeData.Tag;
 
