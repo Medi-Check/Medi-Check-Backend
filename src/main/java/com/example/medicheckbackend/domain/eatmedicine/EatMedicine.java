@@ -29,9 +29,9 @@ public class EatMedicine extends BaseTimeEntity {
     private TakeMedicine takeMedicine;
 
     @NotNull
-    private boolean checked;
+    private int checked;
 
-    public EatMedicine(TakeMedicine takeMedicine, boolean checked) {
+    public EatMedicine(TakeMedicine takeMedicine, int checked) {
         this.takeMedicine = takeMedicine;
         this.checked = checked;
     }

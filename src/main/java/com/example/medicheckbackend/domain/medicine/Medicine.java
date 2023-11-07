@@ -33,11 +33,13 @@ public class Medicine extends BaseTimeEntity {
     @NotNull
     private String information;
 
+    private Integer medicineContainer;
 
-    public Medicine(String name, String makeDate, Integer amount, String information) {
+    public Medicine(String name, String makeDate, Integer amount, String information, int medicineContainer) {
         this.name = name;
         this.makeDate = makeDate;
         this.amount = amount;
         this.information = information;
+        this.medicineContainer = medicineContainer;
     }
 }

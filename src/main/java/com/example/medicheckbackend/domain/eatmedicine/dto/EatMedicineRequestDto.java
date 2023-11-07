@@ -14,7 +14,7 @@ public class EatMedicineRequestDto {
         private String memberName;
         private String medicineName;
         private String time;
-        private boolean checked;
+        private int checked;
     }
 
 }

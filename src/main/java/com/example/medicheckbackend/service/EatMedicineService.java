@@ -37,7 +37,7 @@ public class EatMedicineService {
         EdgeData.Tag MedicineCheck = new Tag(); {
             MedicineCheck.DeviceId = "MediCheck";
             MedicineCheck.TagName = "MedicineCheck";
-            MedicineCheck.Value = true;
+            MedicineCheck.Value = eatMedicineInfo.getChecked();
         }
         data.TagList.add(MedicineCheck);
         data.Timestamp = new Date();
@@ -49,7 +49,7 @@ public class EatMedicineService {
         TakeMedicine takMedicine = takeMedicineRepository.findByWeekAndMedicineAndMemberAndTime(
                 eatMedicineInfo.getWeek(), medicine, member, eatMedicineInfo.getTime());
 
-        EatMedicine eatMedicine = new EatMedicine(takMedicine, eatMedicineInfo.isChecked());
+        EatMedicine eatMedicine = new EatMedicine(takMedicine, eatMedicineInfo.getChecked());
         eatMedicineRepository.save(eatMedicine);
         return "약 체크 완료";
     }
