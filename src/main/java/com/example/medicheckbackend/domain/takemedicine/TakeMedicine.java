@@ -34,7 +34,9 @@ public class TakeMedicine extends BaseTimeEntity {
     private Weekend week;
 
     @NotNull
-    private String time;
+    private int hour;
+
+    private int minute;
 
     @NotNull
     private int amounts;
@@ -47,9 +49,10 @@ public class TakeMedicine extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    public TakeMedicine(Weekend week, String time, int amounts, Medicine medicine, Member member) {
+    public TakeMedicine(Weekend week, int hour, int minute, int amounts, Medicine medicine, Member member) {
         this.week = week;
-        this.time = time;
+        this.hour = hour;
+        this.minute = minute;
         this.amounts = amounts;
         this.medicine = medicine;
         this.member = member;

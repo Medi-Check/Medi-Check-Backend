@@ -1,5 +1,5 @@
 package com.example.medicheckbackend.domain;
 
 public enum Weekend {
-    MON,TUE,WED,THU,FRI,SAT,SUN
+    MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY,SUNDAY
 }

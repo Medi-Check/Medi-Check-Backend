@@ -13,7 +13,8 @@ public class EatMedicineRequestDto {
         private Weekend week;
         private String memberName;
         private String medicineName;
-        private String time;
+        private int hour;
+        private int minute;
         private int checked;
     }
 

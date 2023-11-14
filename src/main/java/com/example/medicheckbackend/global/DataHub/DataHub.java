@@ -24,13 +24,13 @@ public class DataHub {
 
         options.ConnectType = ConnectType.DCCS;                // Connection type (DCCS, MQTT). The default setting is DCCS.
 
-        options.DCCS = new DCCSOptions("757664e769adc974f2fe21d8aee5e254", "https://api-dccs-ensaas.sa.wise-paas.com/");
+        options.DCCS = new DCCSOptions("06cef69143bea37e4f791b0aa7efedyc", "https://api-dccs-ensaas.sa.wise-paas.com/");
 
         options.MQTT = new MQTTOptions("127.0.0.1", 1883, "admin", "pwd", Protocol.TCP);
 
         options.UseSecure = false;
         options.AutoReconnect = true;
-        options.NodeId = "9e75057d-360a-4eca-bf6e-3e3ddbe5e291";    // Obtain from portal
+        options.NodeId = "d6154364-9b7c-45d3-bf9e-7ff253098965";    // Obtain from portal
         options.Type = EdgeType.Gateway;                // Configure the edge as a Gateway or Device. The default setting is Gateway.
         options.DeviceId = "MediCheck";                // If the Type is Device, the DeviceID must be input.
         options.Heartbeat = 60000;                    // The default is 60 seconds.

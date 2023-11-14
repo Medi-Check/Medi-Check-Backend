@@ -20,8 +20,14 @@ public class MemberService {
     private final S3Service s3Service;
 
     public String insertMember(List<MultipartFile> multipartFile, MemberInfo memberInfo) {
-        List<S3Result> s3Results = s3Service.uploadFile(multipartFile);
-        Member member = new Member(memberInfo.getNickName(), memberInfo.getFamilyCode(), s3Results.get(0).getImgUrl());
+        Member member;
+        if(multipartFile.isEmpty()) {
+            member = new Member(memberInfo.getNickName(), memberInfo.getFamilyCode(), "https://heronmovie.s3.ap-northeast-2.amazonaws.com/58f07179-e23b-45ff-9f9c-3368092f4054.png");
+        }
+        else {
+            List<S3Result> s3Results = s3Service.uploadFile(multipartFile);
+            member = new Member(memberInfo.getNickName(), memberInfo.getFamilyCode(), s3Results.get(0).getImgUrl());
+        }
         memberRepository.save(member);
         return "멤버 저장 완료";
     }

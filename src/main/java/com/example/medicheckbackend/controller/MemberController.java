@@ -25,7 +25,7 @@ public class MemberController {
      * 유저 등록
      */
     @PostMapping("/member/nickname")
-    public ResponseEntity<String> insertMember(@RequestPart(value = "images") List<MultipartFile> multipartFile,
+    public ResponseEntity<String> insertMember(@RequestPart(value = "images", required = false) List<MultipartFile> multipartFile,
                                                @RequestPart(value = "memberInfo") MemberInfo memberInfo) {
         return ResponseEntity.ok(memberService.insertMember(multipartFile, memberInfo));
     }

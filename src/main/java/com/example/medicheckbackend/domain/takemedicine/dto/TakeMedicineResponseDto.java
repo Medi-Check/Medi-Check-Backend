@@ -13,7 +13,8 @@ public class TakeMedicineResponseDto {
     public static class TakeMedicineRes {
         private String medicineName;
         private Weekend week;
-        private String time;
+        private int hour;
+        private int minute;
         private int amounts;
     }
 }

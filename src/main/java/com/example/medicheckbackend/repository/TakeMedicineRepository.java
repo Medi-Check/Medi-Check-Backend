@@ -10,11 +10,14 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TakeMedicineRepository extends JpaRepository<TakeMedicine, Long> {
 
-    TakeMedicine findByWeekAndMedicineAndMemberAndTime(Weekend week, Medicine medicine, Member member, String time);
+    TakeMedicine findByWeekAndMedicineAndMemberAndHourAndMinute(Weekend week, Medicine medicine, Member member, int hour, int minute);
 
     List<TakeMedicine> findByWeekAndMember(Weekend week, Member member);
 
     @Query("select tm from TakeMedicine tm join fetch tm.medicine where tm.member = :member")
     List<TakeMedicine> findAllByMember(Member member);
+
+    @Query("select tm from TakeMedicine tm join fetch tm.medicine join fetch tm.member")
+    List<TakeMedicine> findAll();
 
 }

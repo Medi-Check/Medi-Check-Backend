@@ -29,6 +29,8 @@ public class Member extends BaseTimeEntity {
 
     private String imgUrl;
 
+    private String firebaseToken;
+
     public Member(String nickName, String familyCode, String imgUrl) {
         this.nickName = nickName;
         this.familyCode = familyCode;

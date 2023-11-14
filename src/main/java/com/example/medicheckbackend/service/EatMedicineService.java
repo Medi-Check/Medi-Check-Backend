@@ -45,8 +45,8 @@ public class EatMedicineService {
         Member member = memberRepository.findMemberByNickName(eatMedicineInfo.getMemberName());
         Medicine medicine = medicineRepository.findByName(eatMedicineInfo.getMedicineName());
 
-        TakeMedicine takMedicine = takeMedicineRepository.findByWeekAndMedicineAndMemberAndTime(
-                eatMedicineInfo.getWeek(), medicine, member, eatMedicineInfo.getTime());
+        TakeMedicine takMedicine = takeMedicineRepository.findByWeekAndMedicineAndMemberAndHourAndMinute(
+                eatMedicineInfo.getWeek(), medicine, member, eatMedicineInfo.getHour(), eatMedicineInfo.getMinute());
 
         EatMedicine eatMedicine = new EatMedicine(takMedicine, eatMedicineInfo.getChecked());
         eatMedicineRepository.save(eatMedicine);
