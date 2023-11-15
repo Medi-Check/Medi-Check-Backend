@@ -4,6 +4,7 @@ import static com.example.medicheckbackend.global.DataHub.DataHub.edgeAgent;
 
 import com.example.medicheckbackend.domain.eatmedicine.EatMedicine;
 import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineRequestDto.EatMedicineInfo;
+import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineRequestDto.HealthRateInfo;
 import com.example.medicheckbackend.domain.medicine.Medicine;
 import com.example.medicheckbackend.domain.member.Member;
 import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
@@ -15,6 +16,7 @@ import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import wisepaas.datahub.java.sdk.model.edge.EdgeData;
 import wisepaas.datahub.java.sdk.model.edge.EdgeData.Tag;
 
@@ -27,10 +29,7 @@ public class EatMedicineService {
     private final MedicineRepository medicineRepository;
     private final MemberRepository memberRepository;
 
-
-
-
-    public String checkMedicine(EatMedicineInfo eatMedicineInfo) {
+    public Long checkMedicine(EatMedicineInfo eatMedicineInfo) {
         EdgeData data = new EdgeData();
 
         EdgeData.Tag MedicineCheck = new Tag(); {
@@ -50,7 +49,7 @@ public class EatMedicineService {
 
         EatMedicine eatMedicine = new EatMedicine(takMedicine, eatMedicineInfo.getChecked());
         eatMedicineRepository.save(eatMedicine);
-        return "약 체크 완료";
+        return eatMedicine.getId();
     }
 
     @Scheduled(cron = "0 0 12 * * ?")
@@ -81,6 +80,24 @@ public class EatMedicineService {
         data.TagList.add(MedicineCheck);
         data.Timestamp = new Date();
         edgeAgent.SendData(data);
+    }
+
+    @Transactional
+    public String healthRate(HealthRateInfo healthRateInfo) {
+        EatMedicine eatMedicine = eatMedicineRepository.findById(healthRateInfo.getEatMedicineId()).orElseThrow();
+        eatMedicine.setHealthRate(healthRateInfo.getHealthRate());
+
+        EdgeData data = new EdgeData();
+        EdgeData.Tag HealthRate = new Tag(); {
+            HealthRate.DeviceId = "MediCheck";
+            HealthRate.TagName = "healthRate";
+            HealthRate.Value = healthRateInfo.getHealthRate();
+        }
+
+        data.TagList.add(HealthRate);
+        data.Timestamp = new Date();
+        edgeAgent.SendData(data);
+        return "건강 체크 완료";
     }
 
 }

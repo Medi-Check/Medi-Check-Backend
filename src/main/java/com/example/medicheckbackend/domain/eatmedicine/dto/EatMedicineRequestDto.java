@@ -18,4 +18,12 @@ public class EatMedicineRequestDto {
         private int checked;
     }
 
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class HealthRateInfo {
+        private int healthRate;
+        private Long eatMedicineId;
+    }
+
 }

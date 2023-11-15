@@ -31,8 +31,14 @@ public class EatMedicine extends BaseTimeEntity {
     @NotNull
     private int checked;
 
+    private int healthRate;
+
     public EatMedicine(TakeMedicine takeMedicine, int checked) {
         this.takeMedicine = takeMedicine;
         this.checked = checked;
+    }
+
+    public void setHealthRate(int healthRate) {
+        this.healthRate = healthRate;
     }
 }

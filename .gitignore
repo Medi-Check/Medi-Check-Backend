@@ -40,3 +40,4 @@ src/main/resources/application.yml
 src/main/resources/application-dev.yml
 src/main/resources/application-main.yml
 src/main/resources/email.properties
+src/main/resources/medicheck.json

@@ -21,7 +21,7 @@ public class MemberService {
 
     public String insertMember(List<MultipartFile> multipartFile, MemberInfo memberInfo) {
         Member member;
-        if(multipartFile.isEmpty()) {
+        if(multipartFile == null) {
             member = new Member(memberInfo.getNickName(), memberInfo.getFamilyCode(), "https://heronmovie.s3.ap-northeast-2.amazonaws.com/58f07179-e23b-45ff-9f9c-3368092f4054.png");
         }
         else {
@@ -31,7 +31,6 @@ public class MemberService {
         memberRepository.save(member);
         return "멤버 저장 완료";
     }
-
     public List<MemberRes> selectMembers(String familyCode) {
         return memberRepository.findAllByFamilyCode(familyCode).stream()
                 .map(m -> new MemberRes(m.getNickName(), m.getImgUrl()))
