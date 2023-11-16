@@ -12,7 +12,11 @@ public class MedicineRequestDto {
     public static class MedicineInfo {
         private String name;
         private String makeDate;
+        private String expirationDate;
         private Integer amount;
         private String information;
+        private int medicineContainer;
+        private int medicineCost;
     }
+
 }

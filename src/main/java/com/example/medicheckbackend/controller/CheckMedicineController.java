@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -40,6 +39,14 @@ public class CheckMedicineController {
     @PostMapping("/medicine/healthRate")
     public ResponseEntity<String> CheckHealthMedicine(@RequestBody HealthRateInfo healthRateInfo) {
         return ResponseEntity.ok(eatMedicineService.healthRate(healthRateInfo));
+    }
+
+    /**
+     * 전송 테스트
+     */
+    @PostMapping("/send/data")
+    public ResponseEntity<String> sendDataMedicine() {
+        return ResponseEntity.ok(eatMedicineService.sendSuccessAmount());
     }
 
 }

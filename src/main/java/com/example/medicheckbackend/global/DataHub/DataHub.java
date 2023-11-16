@@ -33,14 +33,13 @@ public class DataHub {
         options.NodeId = "d6154364-9b7c-45d3-bf9e-7ff253098965";    // Obtain from portal
         options.Type = EdgeType.Gateway;                // Configure the edge as a Gateway or Device. The default setting is Gateway.
         options.DeviceId = "MediCheck";                // If the Type is Device, the DeviceID must be input.
-        options.Heartbeat = 60000;                    // The default is 60 seconds.
         options.DataRecover = true;                    // Whether to recover data when disconnected
 
         edgeAgent = new EdgeAgent(options, agentListener);
 
         edgeAgent.Connect();
-    }
 
+    }
 
     EdgeAgentListener agentListener = new EdgeAgentListener() {
         @Override

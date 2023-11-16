@@ -19,9 +19,8 @@ public class MedicineController {
      * 약 정보 등록
      */
     @PostMapping("/medicine")
-    public ResponseEntity<String> insertMedicine(@RequestBody MedicineInfo medicineInfo,
-                                                 @RequestParam int medicineContainer){
-        return ResponseEntity.ok(medicineService.insertMedicine(medicineInfo, medicineContainer));
+    public ResponseEntity<String> insertMedicine(@RequestBody MedicineInfo medicineInfo){
+        return ResponseEntity.ok(medicineService.insertMedicine(medicineInfo));
     }
 
 }

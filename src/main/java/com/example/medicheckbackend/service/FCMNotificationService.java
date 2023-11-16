@@ -78,4 +78,20 @@ public class FCMNotificationService {
 
         return "전송 종료";
     }
+
+
+    public String sendTemp() throws FirebaseMessagingException {
+        Notification notification = Notification.builder()
+                .setTitle("카톡봐라")
+                .setBody("경수야 잘보고 있냐?")
+                .build();
+
+        Message message = Message.builder()
+                .setToken("ercMZ6JLkke4hRD6Ibd_Ol:APA91bGLviJhFCVrIpzCEUik-WtROA-f-PKi7-hFvhfuhAWFMc8z_owjouNg0DctQLePlqhkHLWqRTZMuwEmrJmOEKrs5sSpfehE0BR2CIJwfarALVPHHuF75PtYmt_RCC0lxLFCkT_8")
+                .setNotification(notification)
+                .build();
+
+        firebaseMessaging.send(message);
+        return "전송 완료";
+    }
 }

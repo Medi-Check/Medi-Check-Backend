@@ -28,18 +28,30 @@ public class Medicine extends BaseTimeEntity {
     private String makeDate;
 
     @NotNull
-    private Integer amount;
+    private String expirationDate;
+
+    @NotNull
+    private int amount;
 
     @NotNull
     private String information;
 
-    private Integer medicineContainer;
+    private int medicineContainer;
 
-    public Medicine(String name, String makeDate, Integer amount, String information, int medicineContainer) {
+    private int medicineCost;
+
+    public Medicine(String name, String makeDate, String expirationDate, int amount, String information,
+                    int medicineContainer, int medicineCost) {
         this.name = name;
         this.makeDate = makeDate;
+        this.expirationDate = expirationDate;
         this.amount = amount;
         this.information = information;
         this.medicineContainer = medicineContainer;
+        this.medicineCost = medicineCost;
+    }
+
+    public void modifyAmount(int amount) {
+        this.amount = this.amount - amount;
     }
 }

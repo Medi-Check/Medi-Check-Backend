@@ -1,6 +1,7 @@
 package com.example.medicheckbackend.repository;
 
 import com.example.medicheckbackend.domain.Weekend;
+import com.example.medicheckbackend.domain.eatmedicine.EatMedicine;
 import com.example.medicheckbackend.domain.medicine.Medicine;
 import com.example.medicheckbackend.domain.member.Member;
 import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
@@ -19,5 +20,9 @@ public interface TakeMedicineRepository extends JpaRepository<TakeMedicine, Long
 
     @Query("select tm from TakeMedicine tm join fetch tm.medicine join fetch tm.member")
     List<TakeMedicine> findAll();
+
+    @Query("select tm from TakeMedicine tm join fetch tm.medicine where tm.week = :week "
+            + "and date_format(tm.createdAt, '%Y-%m-%d') = :today")
+    List<TakeMedicine> findAllByCreatedAt(Weekend week, String today);
 
 }
