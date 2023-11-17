@@ -1,5 +1,6 @@
 package com.example.medicheckbackend.controller;
 
+import com.example.medicheckbackend.domain.member.dto.MemberRequestDto.FireBaseInfo;
 import com.example.medicheckbackend.domain.member.dto.MemberRequestDto.MemberInfo;
 import com.example.medicheckbackend.domain.member.dto.MemberResponseDto.MemberRes;
 import com.example.medicheckbackend.global.mail.EmailService;
@@ -49,6 +50,12 @@ public class MemberController {
     @GetMapping("/members")
     public ResponseEntity<List<MemberRes>> selectMembers(@RequestParam String familyCode) {
         return ResponseEntity.ok(memberService.selectMembers(familyCode));
+    }
+
+    @Operation(summary = "firebase_token 업데이트")
+    @PostMapping("/members/firebaseToken")
+    public ResponseEntity<String> modifyFirebaseToken(@RequestParam FireBaseInfo fireBaseInfo) {
+        return ResponseEntity.ok(memberService.modifyFireBaseToken(fireBaseInfo));
     }
 
 }

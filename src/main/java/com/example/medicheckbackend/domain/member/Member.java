@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 @AllArgsConstructor
@@ -37,4 +38,8 @@ public class Member extends BaseTimeEntity {
         this.imgUrl = imgUrl;
     }
 
+    @Transactional
+    public void modifyFireBaseToken(String firebaseToken) {
+        this.firebaseToken = firebaseToken;
+    }
 }

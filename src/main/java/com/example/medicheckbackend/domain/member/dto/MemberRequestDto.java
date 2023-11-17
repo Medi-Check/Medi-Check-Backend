@@ -13,4 +13,12 @@ public class MemberRequestDto {
         private String nickName;
         private String familyCode;
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FireBaseInfo {
+        private String nickName;
+        private String fireBaseToken;
+    }
 }
