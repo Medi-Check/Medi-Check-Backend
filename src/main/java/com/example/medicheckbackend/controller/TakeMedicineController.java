@@ -2,6 +2,7 @@ package com.example.medicheckbackend.controller;
 
 import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineRequestDto.TakeMedicineInfo;
 import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineRequestDto.TakeMedicineWeek;
+import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineResponseDto.TakeMedicineList;
 import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineResponseDto.TakeMedicineRes;
 import com.example.medicheckbackend.service.TakeMedicineService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -50,9 +51,18 @@ public class TakeMedicineController {
     /**
      * 약 일정
      */
-    @Operation(summary = "약에 대한 모든 일정 조회")
+    @Operation(summary = "특정 약이름에 대한 모든 일정 조회")
     @GetMapping("/medicine/schedules")
     public ResponseEntity<List<TakeMedicineRes>> selectMedicineSchedules(@RequestParam String medicineName) {
         return ResponseEntity.ok(takeMedicineService.selectMedicineSchedules(medicineName));
+    }
+
+    /**
+     * 약 정보 및 일정 모두 조회
+     */
+    @Operation(summary = "모든 약이름에 모든 일정 조회")
+    @GetMapping("/medicine/take/schedules")
+    public ResponseEntity<List<TakeMedicineList>> selectMedicineList() {
+        return ResponseEntity.ok(takeMedicineService.selectMedicineList());
     }
 }

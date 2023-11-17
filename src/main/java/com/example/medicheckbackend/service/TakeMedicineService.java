@@ -5,10 +5,12 @@ import com.example.medicheckbackend.domain.member.Member;
 import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
 import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineRequestDto.TakeMedicineInfo;
 import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineRequestDto.TakeMedicineWeek;
+import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineResponseDto.TakeMedicineList;
 import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineResponseDto.TakeMedicineRes;
 import com.example.medicheckbackend.repository.MedicineRepository;
 import com.example.medicheckbackend.repository.MemberRepository;
 import com.example.medicheckbackend.repository.TakeMedicineRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +41,7 @@ public class TakeMedicineService {
 
         return takeMedicineRepository.findAllByMember(member)
                 .stream()
-                .map(t -> new TakeMedicineRes(t.getMedicine().getName(), t.getWeek(),
+                .map(t -> new TakeMedicineRes(t.getWeek(),
                         t.getHour(), t.getMinute(), t.getAmounts())).collect(Collectors.toList());
     }
 
@@ -48,7 +50,7 @@ public class TakeMedicineService {
 
         return takeMedicineRepository.findByWeekAndMember(takeMedicineWeek.getWeek(), member)
                 .stream()
-                .map(t -> new TakeMedicineRes(t.getMedicine().getName(), t.getWeek(),
+                .map(t -> new TakeMedicineRes(t.getWeek(),
                         t.getHour(), t.getMinute(), t.getAmounts())).collect(Collectors.toList());
     }
 
@@ -59,5 +61,18 @@ public class TakeMedicineService {
         return takeMedicines.stream()
                 .map(TakeMedicineRes::new)
                 .collect(Collectors.toList());
+    }
+
+    public List<TakeMedicineList> selectMedicineList() {
+        List<Medicine> medicines = medicineRepository.findAll();
+        List<TakeMedicineList> takeMedicineLists = new ArrayList<>();
+
+        for (int i = 0; i < medicines.size() ; i++) {
+            List<TakeMedicine> takeMedicines = takeMedicineRepository.findAllByMedicine(medicines.get(i));
+            takeMedicineLists.add(new TakeMedicineList(medicines.get(i).getName(),
+                    takeMedicines.stream().map(TakeMedicineRes::new).collect(Collectors.toList())));
+        }
+
+        return takeMedicineLists;
     }
 }
