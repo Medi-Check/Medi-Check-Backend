@@ -51,4 +51,13 @@ public class TakeMedicineService {
                 .map(t -> new TakeMedicineRes(t.getMedicine().getName(), t.getWeek(),
                         t.getHour(), t.getMinute(), t.getAmounts())).collect(Collectors.toList());
     }
+
+    public List<TakeMedicineRes> selectMedicineSchedules(String medicineName) {
+        Medicine medicine = medicineRepository.findByName(medicineName);
+        List<TakeMedicine> takeMedicines = takeMedicineRepository.findAllByMedicine(medicine);
+
+        return takeMedicines.stream()
+                .map(TakeMedicineRes::new)
+                .collect(Collectors.toList());
+    }
 }

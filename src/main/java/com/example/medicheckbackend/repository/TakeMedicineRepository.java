@@ -25,4 +25,7 @@ public interface TakeMedicineRepository extends JpaRepository<TakeMedicine, Long
             + "and date_format(tm.createdAt, '%Y-%m-%d') = :today")
     List<TakeMedicine> findAllByCreatedAt(Weekend week, String today);
 
+    @Query("select tm from TakeMedicine tm join fetch tm.medicine where tm.medicine = :medicine")
+    List<TakeMedicine> findAllByMedicine(Medicine medicine);
+
 }

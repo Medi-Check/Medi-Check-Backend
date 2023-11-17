@@ -4,6 +4,7 @@ import com.example.medicheckbackend.domain.member.dto.MemberRequestDto.MemberInf
 import com.example.medicheckbackend.domain.member.dto.MemberResponseDto.MemberRes;
 import com.example.medicheckbackend.global.mail.EmailService;
 import com.example.medicheckbackend.service.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class MemberController {
     /**
      * 유저 등록
      */
+    @Operation(summary = "유저 등록")
     @PostMapping("/member/nickname")
     public ResponseEntity<String> insertMember(@RequestPart(value = "images", required = false) List<MultipartFile> multipartFile,
                                                @RequestPart(value = "memberInfo") MemberInfo memberInfo) {
@@ -33,6 +35,7 @@ public class MemberController {
     /**
      * 가족 코드 전송
      */
+    @Operation(summary = "가족 코드 전송")
     @PostMapping("/email/familyCode")
     public String emailSend(@RequestParam String email) throws Exception {
         String key = emailService.sendSimpleMessage(email);
@@ -42,6 +45,7 @@ public class MemberController {
     /**
      * 가족 코드가 같은 유저 모두 조회
      */
+    @Operation(summary = "가족 코드가 같은 유저 모두 조회")
     @GetMapping("/members")
     public ResponseEntity<List<MemberRes>> selectMembers(@RequestParam String familyCode) {
         return ResponseEntity.ok(memberService.selectMembers(familyCode));

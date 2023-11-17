@@ -4,6 +4,7 @@ import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineRequestD
 import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineRequestDto.TakeMedicineWeek;
 import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineResponseDto.TakeMedicineRes;
 import com.example.medicheckbackend.service.TakeMedicineService;
+import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class TakeMedicineController {
     /**
      * 약 일정 등록
      */
+    @Operation(summary = "약 일정 등록")
     @PostMapping("/medicine/schedule")
     public ResponseEntity<String> insertSchedule(@RequestBody TakeMedicineInfo takeMedicineInfo) {
         return ResponseEntity.ok(takeMedicineService.insertTakeMedicine(takeMedicineInfo));
@@ -30,7 +32,8 @@ public class TakeMedicineController {
     /**
      * 약 일정 모두 조회
      */
-    @GetMapping("/medicine/schedules")
+    @Operation(summary = "약 일정 모두 조회 (사람 이름에 따라)")
+    @GetMapping("/member/schedules")
     public ResponseEntity<List<TakeMedicineRes>> selectSchedule(@RequestParam String memberName) {
         return ResponseEntity.ok(takeMedicineService.selectSchedule(memberName));
     }
@@ -38,9 +41,18 @@ public class TakeMedicineController {
     /**
      * 약 일정 요일 별로 조회
      */
+    @Operation(summary = "약 일정 요일별로 조회")
     @GetMapping("/medicine/week")
     public ResponseEntity<List<TakeMedicineRes>> selectWeekSchedule(@RequestBody TakeMedicineWeek takeMedicineWeek) {
         return ResponseEntity.ok(takeMedicineService.selectWeekSchedule(takeMedicineWeek));
     }
 
+    /**
+     * 약 일정
+     */
+    @Operation(summary = "약에 대한 모든 일정 조회")
+    @GetMapping("/medicine/schedules")
+    public ResponseEntity<List<TakeMedicineRes>> selectMedicineSchedules(@RequestParam String medicineName) {
+        return ResponseEntity.ok(takeMedicineService.selectMedicineSchedules(medicineName));
+    }
 }

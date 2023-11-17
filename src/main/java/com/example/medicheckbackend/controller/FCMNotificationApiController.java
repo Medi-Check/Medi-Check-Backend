@@ -14,7 +14,7 @@ public class FCMNotificationApiController {
 
     private final FCMNotificationService fcmNotificationService;
 
-     @Operation(summary = "알림 보내기")
+    @Operation(summary = "알림 보내기")
     @PostMapping("/notification")
     public ResponseEntity<String> sendNotificationByToken() throws FirebaseMessagingException {
         return ResponseEntity.ok(fcmNotificationService.sendTemp());}

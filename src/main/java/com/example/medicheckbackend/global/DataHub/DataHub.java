@@ -1,5 +1,6 @@
 package com.example.medicheckbackend.global.DataHub;
 
+import org.springframework.context.annotation.Configuration;
 import wisepaas.datahub.java.sdk.EdgeAgent;
 import wisepaas.datahub.java.sdk.common.Const;
 import wisepaas.datahub.java.sdk.common.Const.EdgeType;
@@ -19,6 +20,7 @@ import wisepaas.datahub.java.sdk.model.event.MessageReceivedEventArgs;
 public class DataHub {
 
     public static EdgeAgent edgeAgent;
+
     public void connectDataHub() {
         EdgeAgentOptions options = new EdgeAgentOptions();
 
@@ -26,19 +28,17 @@ public class DataHub {
 
         options.DCCS = new DCCSOptions("06cef69143bea37e4f791b0aa7efedyc", "https://api-dccs-ensaas.sa.wise-paas.com/");
 
-        options.MQTT = new MQTTOptions("127.0.0.1", 1883, "admin", "pwd", Protocol.TCP);
-
         options.UseSecure = false;
         options.AutoReconnect = true;
         options.NodeId = "d6154364-9b7c-45d3-bf9e-7ff253098965";    // Obtain from portal
         options.Type = EdgeType.Gateway;                // Configure the edge as a Gateway or Device. The default setting is Gateway.
         options.DeviceId = "MediCheck";                // If the Type is Device, the DeviceID must be input.
+        options.Heartbeat = 60000;                    // The default is 60 seconds.
         options.DataRecover = true;                    // Whether to recover data when disconnected
 
         edgeAgent = new EdgeAgent(options, agentListener);
 
         edgeAgent.Connect();
-
     }
 
     EdgeAgentListener agentListener = new EdgeAgentListener() {
