@@ -13,6 +13,7 @@ public interface TakeMedicineRepository extends JpaRepository<TakeMedicine, Long
 
     TakeMedicine findByWeekAndMedicineAndMemberAndHourAndMinute(Weekend week, Medicine medicine, Member member, int hour, int minute);
 
+    @Query("select tm from TakeMedicine tm join tm.medicine where tm.week =: week and tm.member = :member")
     List<TakeMedicine> findByWeekAndMember(Weekend week, Member member);
 
     @Query("select tm from TakeMedicine tm join fetch tm.medicine where tm.member = :member")
@@ -27,5 +28,8 @@ public interface TakeMedicineRepository extends JpaRepository<TakeMedicine, Long
 
     @Query("select tm from TakeMedicine tm join fetch tm.medicine where tm.medicine = :medicine")
     List<TakeMedicine> findAllByMedicine(Medicine medicine);
+
+    @Query("select tm from TakeMedicine tm join fetch tm.medicine where tm.id = :takeMedicineId")
+    TakeMedicine findByIdWithMedicine(Long takeMedicineId);
 
 }

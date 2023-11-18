@@ -75,7 +75,6 @@ public class FCMNotificationService {
                 return "서버에 저장된 해당 유저의 FirebaseToken이 존재하지 않습니다. targetUserId=" + member.getId();
             }
         }
-
         return "전송 종료";
     }
 

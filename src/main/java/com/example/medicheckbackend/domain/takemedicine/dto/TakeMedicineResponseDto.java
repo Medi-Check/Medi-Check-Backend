@@ -14,12 +14,15 @@ public class TakeMedicineResponseDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class TakeMedicineRes {
+        private String medicineName;
+        private Long takeMedicineId;
         private Weekend week;
         private int hour;
         private int minute;
         private int amounts;
 
         public TakeMedicineRes(TakeMedicine takeMedicine) {
+            this.medicineName = takeMedicine.getMedicine().getName();
             this.week = takeMedicine.getWeek();
             this.hour = takeMedicine.getHour();
             this.minute = takeMedicine.getMinute();

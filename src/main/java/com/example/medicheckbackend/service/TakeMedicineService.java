@@ -41,8 +41,8 @@ public class TakeMedicineService {
 
         return takeMedicineRepository.findAllByMember(member)
                 .stream()
-                .map(t -> new TakeMedicineRes(t.getWeek(),
-                        t.getHour(), t.getMinute(), t.getAmounts())).collect(Collectors.toList());
+                .map(TakeMedicineRes::new)
+                .collect(Collectors.toList());
     }
 
     public List<TakeMedicineRes> selectWeekSchedule(TakeMedicineWeek takeMedicineWeek) {
@@ -50,8 +50,8 @@ public class TakeMedicineService {
 
         return takeMedicineRepository.findByWeekAndMember(takeMedicineWeek.getWeek(), member)
                 .stream()
-                .map(t -> new TakeMedicineRes(t.getWeek(),
-                        t.getHour(), t.getMinute(), t.getAmounts())).collect(Collectors.toList());
+                .map(TakeMedicineRes::new)
+                .collect(Collectors.toList());
     }
 
     public List<TakeMedicineRes> selectMedicineSchedules(String medicineName) {

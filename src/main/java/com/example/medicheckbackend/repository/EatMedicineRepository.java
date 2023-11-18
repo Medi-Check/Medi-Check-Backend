@@ -17,4 +17,9 @@ public interface EatMedicineRepository extends JpaRepository<EatMedicine, Long> 
     @Query("select em from EatMedicine em join fetch em.takeMedicine join fetch em.takeMedicine.medicine where em.takeMedicine.week = :week "
             + "and date_format(em.createdAt, '%Y-%m-%d') = :today")
     List<EatMedicine> findAllByCreatedAt(Weekend week, String today);
+
+
+    @Query("select em from EatMedicine em join fetch em.takeMedicine join fetch  em.takeMedicine.medicine where em.id = :eatMedicineId")
+    EatMedicine findByIdWithTakeMedicine(Long eatMedicineId);
+
 }

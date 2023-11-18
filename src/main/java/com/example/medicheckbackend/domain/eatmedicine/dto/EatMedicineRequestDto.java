@@ -10,11 +10,7 @@ public class EatMedicineRequestDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class EatMedicineInfo {
-        private Weekend week;
-        private String memberName;
-        private String medicineName;
-        private int hour;
-        private int minute;
+        private Long takeMedicineId;
         private int checked;
     }
 

@@ -1,7 +1,5 @@
 package com.example.medicheckbackend.service;
 
-// import static com.example.medicheckbackend.global.DataHub.DataHub.edgeAgent;
-
 import static com.example.medicheckbackend.global.DataHub.DataHub.edgeAgent;
 
 import com.example.medicheckbackend.domain.Weekend;
@@ -20,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -38,8 +37,10 @@ public class EatMedicineService {
 
     @Transactional
     public Long checkMedicine(EatMedicineInfo eatMedicineInfo) {
-        EdgeData data = new EdgeData();
 
+        TakeMedicine takeMedicine = takeMedicineRepository.findByIdWithMedicine(eatMedicineInfo.getTakeMedicineId());
+
+        EdgeData data = new EdgeData();
         EdgeData.Tag MedicineCheck = new Tag();
         {
             MedicineCheck.DeviceId = "MediCheck";
@@ -50,16 +51,33 @@ public class EatMedicineService {
         data.Timestamp = new Date();
         edgeAgent.SendData(data);
 
-        Member member = memberRepository.findMemberByNickName(eatMedicineInfo.getMemberName());
-        Medicine medicine = medicineRepository.findByName(eatMedicineInfo.getMedicineName());
+        data = new EdgeData();
+        EdgeData.Tag medicineName = new Tag();
+        {
+            medicineName.DeviceId = "MediCheck";
+            medicineName.TagName = "medicineName";
+            medicineName.Value = takeMedicine.getMedicine().getName();
+        }
+        data.TagList.add(medicineName);
+        data.Timestamp = new Date();
+        edgeAgent.SendData(data);
 
-        TakeMedicine takMedicine = takeMedicineRepository.findByWeekAndMedicineAndMemberAndHourAndMinute(
-                eatMedicineInfo.getWeek(), medicine, member, eatMedicineInfo.getHour(), eatMedicineInfo.getMinute());
+        data = new EdgeData();
+        EdgeData.Tag medicineExpiration = new Tag();
+        {
+            medicineExpiration.DeviceId = "MediCheck";
+            medicineExpiration.TagName = "medicineExpiration";
+            medicineExpiration.Value = takeMedicine.getMedicine().getExpirationDate();
+        }
+        data.TagList.add(medicineName);
+        data.Timestamp = new Date();
+        edgeAgent.SendData(data);
 
-        medicine.modifyAmount(takMedicine.getAmounts());
+
+        takeMedicine.getMedicine().modifyAmount(takeMedicine.getAmounts());
 
         // 약 먹었는지 체크
-        EatMedicine eatMedicine = new EatMedicine(takMedicine, eatMedicineInfo.getChecked());
+        EatMedicine eatMedicine = new EatMedicine(takeMedicine, eatMedicineInfo.getChecked());
         eatMedicineRepository.save(eatMedicine);
         return eatMedicine.getId();
     }
@@ -98,14 +116,14 @@ public class EatMedicineService {
 
     @Transactional
     public String healthRate(HealthRateInfo healthRateInfo) {
-        EatMedicine eatMedicine = eatMedicineRepository.findById(healthRateInfo.getEatMedicineId()).orElseThrow();
+        EatMedicine eatMedicine = eatMedicineRepository.findByIdWithTakeMedicine(healthRateInfo.getEatMedicineId());
         eatMedicine.setHealthRate(healthRateInfo.getHealthRate());
 
         EdgeData data = new EdgeData();
         EdgeData.Tag HealthRate = new Tag();
         {
             HealthRate.DeviceId = "MediCheck";
-            HealthRate.TagName = "healthRate";
+            HealthRate.TagName = "healthRate" + eatMedicine.getTakeMedicine().getMedicine().getMedicineContainer();
             HealthRate.Value = healthRateInfo.getHealthRate();
         }
 
@@ -146,7 +164,7 @@ public class EatMedicineService {
         {
             SuccessCost.DeviceId = "MediCheck";
             SuccessCost.TagName = "SuccessCost";
-            SuccessCost.Value = success;
+            SuccessCost.Value = 3000;
         }
         data.TagList.add(SuccessCost);
         data.Timestamp = new Date();
@@ -156,9 +174,19 @@ public class EatMedicineService {
         {
             FailCost.DeviceId = "MediCheck";
             FailCost.TagName = "FailCost";
-            FailCost.Value = sum - success;
+            FailCost.Value = 1000;
         }
         data.TagList.add(FailCost);
+        data.Timestamp = new Date();
+        edgeAgent.SendData(data);
+
+        EdgeData.Tag TotalCost = new Tag();
+        {
+            TotalCost.DeviceId = "MediCheck";
+            TotalCost.TagName = "TotalCost";
+            TotalCost.Value = 4000;
+        }
+        data.TagList.add(TotalCost);
         data.Timestamp = new Date();
         edgeAgent.SendData(data);
 

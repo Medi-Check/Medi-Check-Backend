@@ -39,7 +39,7 @@ public class CheckMedicineController {
     /**
      * 약 주관적 건강 체크
      */
-    @Operation(summary = "약 주관 건강 체크, DataHub 전송")
+    @Operation(summary = "약 건강 체크 (1 ~ 5), DataHub 전송")
     @PostMapping("/medicine/healthRate")
     public ResponseEntity<String> CheckHealthMedicine(@RequestBody HealthRateInfo healthRateInfo) {
         return ResponseEntity.ok(eatMedicineService.healthRate(healthRateInfo));
@@ -49,7 +49,7 @@ public class CheckMedicineController {
      * 전송 테스트
      */
     @Operation(summary = "오늘 약 낭비 비용 전송, DataHub 전송")
-    @PostMapping("/send/data")
+    @PostMapping("/send/worstCost")
     public ResponseEntity<String> sendDataMedicine() {
         return ResponseEntity.ok(eatMedicineService.sendSuccessAmount());
     }

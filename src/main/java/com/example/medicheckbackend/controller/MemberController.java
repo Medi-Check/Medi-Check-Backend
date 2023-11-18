@@ -54,7 +54,7 @@ public class MemberController {
 
     @Operation(summary = "firebase_token 업데이트")
     @PostMapping("/members/firebaseToken")
-    public ResponseEntity<String> modifyFirebaseToken(@RequestParam FireBaseInfo fireBaseInfo) {
+    public ResponseEntity<String> modifyFirebaseToken(@RequestBody FireBaseInfo fireBaseInfo) {
         return ResponseEntity.ok(memberService.modifyFireBaseToken(fireBaseInfo));
     }
 
