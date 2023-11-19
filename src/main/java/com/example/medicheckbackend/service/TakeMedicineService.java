@@ -1,5 +1,6 @@
 package com.example.medicheckbackend.service;
 
+import com.example.medicheckbackend.domain.Weekend;
 import com.example.medicheckbackend.domain.medicine.Medicine;
 import com.example.medicheckbackend.domain.member.Member;
 import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -48,7 +50,7 @@ public class TakeMedicineService {
     public List<TakeMedicineRes> selectWeekSchedule(TakeMedicineWeek takeMedicineWeek) {
         Member member = memberRepository.findMemberByNickName(takeMedicineWeek.getMemberName());
 
-        return takeMedicineRepository.findByWeekAndMember(takeMedicineWeek.getWeek(), member)
+        return takeMedicineRepository.findByWeekAndMember(Weekend.valueOf(String.valueOf(takeMedicineWeek.getWeek())), member)
                 .stream()
                 .map(TakeMedicineRes::new)
                 .collect(Collectors.toList());
@@ -74,5 +76,15 @@ public class TakeMedicineService {
         }
 
         return takeMedicineLists;
+    }
+
+    public List<TakeMedicine> selectAllTakeMedicine () {
+        return takeMedicineRepository.findAll();
+    }
+
+    @Transactional
+    public String deleteTakeMedicineById(Long takeMedicineId) {
+        takeMedicineRepository.findById(takeMedicineId);
+        return "약 일정 삭제 완료";
     }
 }

@@ -32,8 +32,7 @@ public class EatMedicineService {
 
     private final EatMedicineRepository eatMedicineRepository;
     private final TakeMedicineRepository takeMedicineRepository;
-    private final MedicineRepository medicineRepository;
-    private final MemberRepository memberRepository;
+
 
     @Transactional
     public Long checkMedicine(EatMedicineInfo eatMedicineInfo) {
@@ -191,5 +190,15 @@ public class EatMedicineService {
         edgeAgent.SendData(data);
 
         return "데이터 전송 완료";
+    }
+
+    public List<EatMedicine> selectAllEatMedicine() {
+        return eatMedicineRepository.findAll();
+    }
+
+    @Transactional
+    public String deleteEatMedicineById(Long medicineId) {
+        eatMedicineRepository.findById(medicineId);
+        return "약 정보 삭제 완료";
     }
 }

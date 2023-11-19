@@ -46,4 +46,14 @@ public class MemberService {
         member.modifyFireBaseToken(fireBaseInfo.getFireBaseToken());
         return "토큰 추가 완료";
     }
+
+    public List<Member> selectAllMember() {
+        return memberRepository.findAll();
+    }
+
+    @Transactional
+    public String deleteMemberById(Long memberId) {
+        memberRepository.deleteById(memberId);
+        return "member 삭제 완료";
+    }
 }

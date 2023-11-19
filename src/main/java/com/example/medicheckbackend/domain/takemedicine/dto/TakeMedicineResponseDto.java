@@ -23,6 +23,7 @@ public class TakeMedicineResponseDto {
 
         public TakeMedicineRes(TakeMedicine takeMedicine) {
             this.medicineName = takeMedicine.getMedicine().getName();
+            this.takeMedicineId = takeMedicine.getId();
             this.week = takeMedicine.getWeek();
             this.hour = takeMedicine.getHour();
             this.minute = takeMedicine.getMinute();
