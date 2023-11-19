@@ -33,7 +33,7 @@ public class TakeMedicineController {
     /**
      * 약 일정 모두 조회
      */
-    @Operation(summary = "약 일정 모두 조회 (사람 이름에 따라)")
+    @Operation(summary = "약 일정 모두 조회")
     @GetMapping("/member/schedules")
     public ResponseEntity<List<TakeMedicineRes>> selectSchedule(@RequestParam String memberName) {
         return ResponseEntity.ok(takeMedicineService.selectSchedule(memberName));

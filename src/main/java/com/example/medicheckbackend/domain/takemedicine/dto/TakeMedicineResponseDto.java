@@ -20,6 +20,7 @@ public class TakeMedicineResponseDto {
         private int hour;
         private int minute;
         private int amounts;
+        private boolean takeCheck;
 
         public TakeMedicineRes(TakeMedicine takeMedicine) {
             this.medicineName = takeMedicine.getMedicine().getName();

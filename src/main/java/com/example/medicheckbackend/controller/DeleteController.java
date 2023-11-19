@@ -19,22 +19,22 @@ public class DeleteController {
     private final EatMedicineService eatMedicineService;
     private final MedicineService medicineService;
 
-    @PostMapping("/member")
+    @PostMapping("/member/delete")
     public ResponseEntity<String> deleteMemberById(@RequestParam Long memberId) {
         return ResponseEntity.ok(memberService.deleteMemberById(memberId));
     }
 
-    @PostMapping("/medicine")
+    @PostMapping("/medicine/delete")
     public ResponseEntity<String> deleteMedicineById(@RequestParam Long medicineId) {
         return ResponseEntity.ok(medicineService.deleteMedicineById(medicineId));
     }
 
-    @PostMapping("/takeMedicine")
+    @PostMapping("/takeMedicine/delete")
     public ResponseEntity<String> deleteTakeMedicineById(@RequestParam Long takeMedicineId) {
         return ResponseEntity.ok(takeMedicineService.deleteTakeMedicineById(takeMedicineId));
     }
 
-    @PostMapping("/eatMedicine")
+    @PostMapping("/eatMedicine/delete")
     public ResponseEntity<String> deleteEatMedicineById(@RequestParam Long eatMedicineId) {
         return ResponseEntity.ok(eatMedicineService.deleteEatMedicineById(eatMedicineId));
     }

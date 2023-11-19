@@ -30,4 +30,6 @@ public interface TakeMedicineRepository extends JpaRepository<TakeMedicine, Long
     @Query("select tm from TakeMedicine tm join fetch tm.medicine where tm.id = :takeMedicineId")
     TakeMedicine findByIdWithMedicine(Long takeMedicineId);
 
+    Integer countByMedicineAndMember(Medicine medicine, Member member);
+
 }
