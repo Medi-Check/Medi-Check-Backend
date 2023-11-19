@@ -12,6 +12,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -41,6 +43,11 @@ public class SelectController {
     @GetMapping("/eatMedicine")
     public ResponseEntity<List<EatMedicine>> selectAllEatMedicine() {
         return ResponseEntity.ok(eatMedicineService.selectAllEatMedicine());
+    }
+
+    @PostMapping("/medicine/image")
+    public ResponseEntity<String> updateImgURL(@RequestParam String url, @RequestParam Long medicineId) {
+        return ResponseEntity.ok(medicineService.updateImgUrl(url, medicineId));
     }
 
 }

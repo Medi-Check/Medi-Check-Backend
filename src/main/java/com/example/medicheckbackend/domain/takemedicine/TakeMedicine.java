@@ -4,7 +4,6 @@ import com.example.medicheckbackend.domain.Weekend;
 import com.example.medicheckbackend.domain.medicine.Medicine;
 import com.example.medicheckbackend.domain.member.Member;
 import com.example.medicheckbackend.global.common.BaseTimeEntity;
-import com.example.medicheckbackend.service.MedicineService;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

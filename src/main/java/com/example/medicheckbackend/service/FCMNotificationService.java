@@ -8,6 +8,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
+import com.google.storage.v2.NotificationOrBuilder;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,12 +36,22 @@ public class FCMNotificationService {
         int minute = LocalDateTime.now().getMinute();
 
         String temp = "";
-        StringBuilder body = new StringBuilder();
 
         Map<Member, StringBuilder> takeMedicines = new HashMap<>();
 
         for (TakeMedicine takeMedicine : allByMember) {
-            if (takeMedicine.getWeek().toString().equals(dayOfWeek.toString()) && takeMedicine.getMinute() == minute && takeMedicine.getHour() == hour) {
+            StringBuilder body = new StringBuilder();
+            if (takeMedicine.getWeek().toString().equals("EVERYDAY") && takeMedicine.getMinute() == minute
+                    && takeMedicine.getHour() == hour) {
+                temp = takeMedicine.getMedicine().getName() + " " + takeMedicine.getAmounts() + "개 ";
+                body.append(temp);
+                if (!takeMedicines.containsKey(takeMedicine.getMember())) {
+                    takeMedicines.put(takeMedicine.getMember(), body);
+                } else {
+                    takeMedicines.get(takeMedicine.getMember()).append(body);
+                }
+            } else if (takeMedicine.getWeek().toString().equals(dayOfWeek.toString())
+                    && takeMedicine.getMinute() == minute && takeMedicine.getHour() == hour) {
                 temp = takeMedicine.getMedicine().getName() + " " + takeMedicine.getAmounts() + "개 ";
                 body.append(temp);
                 if (!takeMedicines.containsKey(takeMedicine.getMember())) {
@@ -54,7 +65,7 @@ public class FCMNotificationService {
         for (Member member : takeMedicines.keySet()) {
             if (member.getFirebaseToken() != null) {
                 Notification notification = Notification.builder()
-                        .setTitle("MediCheck")
+                        .setTitle(member.getNickName() + "님")
                         .setBody(takeMedicines.get(member).append("복용해야할 시간입니다.").toString())
                         .build();
 
@@ -70,8 +81,7 @@ public class FCMNotificationService {
                     e.printStackTrace();
                     return "알림 보내기를 실패하였습니다. targetUserId=" + member.getId();
                 }
-            }
-            else {
+            } else {
                 return "서버에 저장된 해당 유저의 FirebaseToken이 존재하지 않습니다. targetUserId=" + member.getId();
             }
         }
@@ -86,7 +96,8 @@ public class FCMNotificationService {
                 .build();
 
         Message message = Message.builder()
-                .setToken("ercMZ6JLkke4hRD6Ibd_Ol:APA91bGLviJhFCVrIpzCEUik-WtROA-f-PKi7-hFvhfuhAWFMc8z_owjouNg0DctQLePlqhkHLWqRTZMuwEmrJmOEKrs5sSpfehE0BR2CIJwfarALVPHHuF75PtYmt_RCC0lxLFCkT_8")
+                .setToken(
+                        "ercMZ6JLkke4hRD6Ibd_Ol:APA91bGLviJhFCVrIpzCEUik-WtROA-f-PKi7-hFvhfuhAWFMc8z_owjouNg0DctQLePlqhkHLWqRTZMuwEmrJmOEKrs5sSpfehE0BR2CIJwfarALVPHHuF75PtYmt_RCC0lxLFCkT_8")
                 .setNotification(notification)
                 .build();
 

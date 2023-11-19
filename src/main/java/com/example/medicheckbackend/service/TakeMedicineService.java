@@ -30,11 +30,17 @@ public class TakeMedicineService {
         Member member = memberRepository.findMemberByNickName(takeMedicineInfo.getMemberName());
         Medicine medicine = medicineRepository.findByName(takeMedicineInfo.getMedicineName());
 
-        TakeMedicine takeMedicine = new TakeMedicine(takeMedicineInfo.getWeek(),
-                takeMedicineInfo.getHour(), takeMedicineInfo.getMinute(), takeMedicineInfo.getAmounts(),
-                medicine, member);
+        List<TakeMedicine> takeMedicines = new ArrayList<>();
 
-        takeMedicineRepository.save(takeMedicine);
+        for (int i = 0; i < takeMedicineInfo.getWeek().length; i++) {
+            for(int j = 0; j < takeMedicineInfo.getHour().length; j++) {
+                takeMedicines.add(new TakeMedicine(takeMedicineInfo.getWeek()[i], takeMedicineInfo.getHour()[j],
+                        takeMedicineInfo.getMinute()[j],
+                        takeMedicineInfo.getTakeAmount(), medicine, member));
+            }
+        }
+
+        takeMedicineRepository.saveAll(takeMedicines);
         return "약 일정 저장 완료";
     }
 

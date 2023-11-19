@@ -1,8 +1,5 @@
 package com.example.medicheckbackend.service;
 
-
-import static com.example.medicheckbackend.global.DataHub.DataHub.edgeAgent;
-
 import com.example.medicheckbackend.domain.medicine.Medicine;
 import com.example.medicheckbackend.domain.medicine.dto.MedicineRequestDto.MedicineInfo;
 import com.example.medicheckbackend.domain.medicine.dto.MedicineResponseDto.MedicineRes;
@@ -11,13 +8,11 @@ import com.example.medicheckbackend.repository.MedicineRepository;
 import com.example.medicheckbackend.repository.MemberRepository;
 import com.example.medicheckbackend.repository.TakeMedicineRepository;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wisepaas.datahub.java.sdk.model.edge.EdgeData;
-import wisepaas.datahub.java.sdk.model.edge.EdgeData.Tag;
+
 
 @RequiredArgsConstructor
 @Service
@@ -60,6 +55,13 @@ public class MedicineService {
         }
 
         return medicineRes;
+    }
+
+    @Transactional
+    public String  updateImgUrl(String imageUrl, Long medicineId) {
+        Medicine medicine = medicineRepository.findById(medicineId).orElseThrow();
+        medicine.updateImgUrl(imageUrl);
+        return "사진 추가 완료";
     }
 
 }

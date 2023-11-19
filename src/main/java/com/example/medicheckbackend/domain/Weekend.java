@@ -7,7 +7,8 @@ public enum Weekend {
     THURSDAY("THURSDAY"),
     FRIDAY("FRIDAY"),
     SATURDAY("SATURDAY"),
-    SUNDAY("SUNDAY");
+    SUNDAY("SUNDAY"),
+    EVERYDAY("EVERYDAY");
 
     private String weekend;
 

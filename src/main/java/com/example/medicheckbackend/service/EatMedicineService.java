@@ -90,7 +90,7 @@ public class EatMedicineService {
         {
             MedicineCheck.DeviceId = "MediCheck";
             MedicineCheck.TagName = "Success";
-            MedicineCheck.Value = success;
+            MedicineCheck.Value = 30;
         }
         data.TagList.add(MedicineCheck);
         data.Timestamp = new Date();
@@ -106,7 +106,7 @@ public class EatMedicineService {
         {
             MedicineCheck.DeviceId = "MediCheck";
             MedicineCheck.TagName = "Fail";
-            MedicineCheck.Value = fail;
+            MedicineCheck.Value = 5;
         }
         data.TagList.add(MedicineCheck);
         data.Timestamp = new Date();
@@ -163,7 +163,7 @@ public class EatMedicineService {
         {
             SuccessCost.DeviceId = "MediCheck";
             SuccessCost.TagName = "SuccessCost";
-            SuccessCost.Value = 3000;
+            SuccessCost.Value = 4000;
         }
         data.TagList.add(SuccessCost);
         data.Timestamp = new Date();
@@ -183,7 +183,7 @@ public class EatMedicineService {
         {
             TotalCost.DeviceId = "MediCheck";
             TotalCost.TagName = "TotalCost";
-            TotalCost.Value = 4000;
+            TotalCost.Value = 100000;
         }
         data.TagList.add(TotalCost);
         data.Timestamp = new Date();

@@ -10,12 +10,12 @@ public class TakeMedicineRequestDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class TakeMedicineInfo {
-        private Weekend week;
+        private Weekend[] week;
         private String medicineName;
         private String memberName;
-        private int hour;
-        private int minute;
-        private int amounts;
+        private int[] hour;
+        private int[] minute;
+        private int takeAmount;
     }
 
     @Getter
