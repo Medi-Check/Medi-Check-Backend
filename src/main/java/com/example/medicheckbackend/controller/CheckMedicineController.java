@@ -4,6 +4,7 @@ import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineRequestDto
 import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineRequestDto.HealthRateInfo;
 import com.example.medicheckbackend.service.EatMedicineService;
 import io.swagger.v3.oas.annotations.Operation;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ public class CheckMedicineController {
      */
     @Operation(summary = "약 복용 체크, DataHub 전송")
     @PostMapping("/medicine/eat")
-    public ResponseEntity<Long> EatMedicine(@RequestBody EatMedicineInfo eatMedicineInfo){
+    public ResponseEntity<Long> EatMedicine(@RequestBody EatMedicineInfo eatMedicineInfo) throws IOException {
         return ResponseEntity.ok(eatMedicineService.checkMedicine(eatMedicineInfo));
     }
 

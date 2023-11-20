@@ -9,9 +9,11 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import com.google.storage.v2.NotificationOrBuilder;
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ public class FCMNotificationService {
     private final FirebaseMessaging firebaseMessaging;
 
     private final TakeMedicineRepository takeMedicineRepository;
+    private final LEDService ledService;
 
     @Scheduled(cron = "0 * * * * ?")
     public String sendNotificationByToken() {
@@ -38,6 +41,7 @@ public class FCMNotificationService {
         String temp = "";
 
         Map<Member, StringBuilder> takeMedicines = new HashMap<>();
+        Map<Member, Integer> LedMap = new HashMap<>();
 
         for (TakeMedicine takeMedicine : allByMember) {
             StringBuilder body = new StringBuilder();
@@ -45,11 +49,22 @@ public class FCMNotificationService {
                     && takeMedicine.getHour() == hour) {
                 temp = takeMedicine.getMedicine().getName() + " " + takeMedicine.getAmounts() + "개 ";
                 body.append(temp);
+
                 if (!takeMedicines.containsKey(takeMedicine.getMember())) {
                     takeMedicines.put(takeMedicine.getMember(), body);
                 } else {
                     takeMedicines.get(takeMedicine.getMember()).append(body);
                 }
+
+                if(!LedMap.containsKey(takeMedicine.getMember())) {
+
+                    LedMap.put(takeMedicine.getMember(), (int) Math.pow(2,takeMedicine.getMedicine().getMedicineContainer()-1));
+                }
+                else {
+                    LedMap.put(takeMedicine.getMember(), LedMap.get(takeMedicine.getMember()) +
+                            (int) Math.pow(2,takeMedicine.getMedicine().getMedicineContainer()-1));
+                }
+
             } else if (takeMedicine.getWeek().toString().equals(dayOfWeek.toString())
                     && takeMedicine.getMinute() == minute && takeMedicine.getHour() == hour) {
                 temp = takeMedicine.getMedicine().getName() + " " + takeMedicine.getAmounts() + "개 ";
@@ -58,6 +73,14 @@ public class FCMNotificationService {
                     takeMedicines.put(takeMedicine.getMember(), body);
                 } else {
                     takeMedicines.get(takeMedicine.getMember()).append(body);
+                }
+
+                if(!LedMap.containsKey(takeMedicine.getMember())) {
+                    LedMap.put(takeMedicine.getMember(), (int) Math.pow(2,takeMedicine.getMedicine().getMedicineContainer()-1));
+                }
+                else {
+                    LedMap.put(takeMedicine.getMember(), LedMap.get(takeMedicine.getMember()) +
+                            (int) Math.pow(2,takeMedicine.getMedicine().getMedicineContainer()-1));
                 }
             }
         }
@@ -73,13 +96,15 @@ public class FCMNotificationService {
                         .setToken(member.getFirebaseToken())
                         .setNotification(notification)
                         .build();
-
                 try {
                     firebaseMessaging.send(message);
+                    ledService.OnLED(LedMap.get(member));
                     return "알림을 성공적으로 전송했습니다. targetUserId=" + member.getId();
                 } catch (FirebaseMessagingException e) {
                     e.printStackTrace();
                     return "알림 보내기를 실패하였습니다. targetUserId=" + member.getId();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
             } else {
                 return "서버에 저장된 해당 유저의 FirebaseToken이 존재하지 않습니다. targetUserId=" + member.getId();
@@ -87,7 +112,6 @@ public class FCMNotificationService {
         }
         return "전송 종료";
     }
-
 
     public String sendTemp() throws FirebaseMessagingException {
         Notification notification = Notification.builder()

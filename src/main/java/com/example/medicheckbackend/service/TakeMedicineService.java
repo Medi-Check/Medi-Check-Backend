@@ -33,10 +33,12 @@ public class TakeMedicineService {
         List<TakeMedicine> takeMedicines = new ArrayList<>();
 
         for (int i = 0; i < takeMedicineInfo.getWeek().length; i++) {
-            for(int j = 0; j < takeMedicineInfo.getHour().length; j++) {
-                takeMedicines.add(new TakeMedicine(takeMedicineInfo.getWeek()[i], takeMedicineInfo.getHour()[j],
-                        takeMedicineInfo.getMinute()[j],
-                        takeMedicineInfo.getTakeAmount(), medicine, member));
+            for(int j = 0; j < takeMedicineInfo.getTime().length; j++) {
+                String[] temp = takeMedicineInfo.getTime()[j].split(":");
+                int hour = Integer.parseInt(temp[0]);
+                int minute = Integer.parseInt(temp[1]);
+                takeMedicines.add(new TakeMedicine(takeMedicineInfo.getWeek()[i],
+                        hour, minute, takeMedicineInfo.getTakeAmount(), medicine, member));
             }
         }
 

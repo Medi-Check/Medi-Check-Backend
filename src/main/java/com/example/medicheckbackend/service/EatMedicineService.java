@@ -6,6 +6,7 @@ import com.example.medicheckbackend.domain.Weekend;
 import com.example.medicheckbackend.domain.eatmedicine.EatMedicine;
 import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineRequestDto.EatMedicineInfo;
 import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineRequestDto.HealthRateInfo;
+import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineResponseDto.EatMedicineRes;
 import com.example.medicheckbackend.domain.medicine.Medicine;
 import com.example.medicheckbackend.domain.member.Member;
 import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
@@ -13,9 +14,11 @@ import com.example.medicheckbackend.repository.EatMedicineRepository;
 import com.example.medicheckbackend.repository.MedicineRepository;
 import com.example.medicheckbackend.repository.MemberRepository;
 import com.example.medicheckbackend.repository.TakeMedicineRepository;
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -32,10 +35,11 @@ public class EatMedicineService {
 
     private final EatMedicineRepository eatMedicineRepository;
     private final TakeMedicineRepository takeMedicineRepository;
+    private final LEDService ledService;
 
 
     @Transactional
-    public Long checkMedicine(EatMedicineInfo eatMedicineInfo) {
+    public Long checkMedicine(EatMedicineInfo eatMedicineInfo) throws IOException {
 
         TakeMedicine takeMedicine = takeMedicineRepository.findByIdWithMedicine(eatMedicineInfo.getTakeMedicineId());
 
@@ -72,12 +76,12 @@ public class EatMedicineService {
         data.Timestamp = new Date();
         edgeAgent.SendData(data);
 
-
         takeMedicine.getMedicine().modifyAmount(takeMedicine.getAmounts());
 
         // 약 먹었는지 체크
         EatMedicine eatMedicine = new EatMedicine(takeMedicine, eatMedicineInfo.getChecked());
         eatMedicineRepository.save(eatMedicine);
+        ledService.OffLED();
         return eatMedicine.getId();
     }
 
@@ -138,10 +142,12 @@ public class EatMedicineService {
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("Y-M-d"));
 
         //오늘 먹은 약 조회
-        List<EatMedicine> eatMedicine = eatMedicineRepository.findAllByCreatedAt(Weekend.valueOf(dayOfWeek.toString()), now);
+        List<EatMedicine> eatMedicine = eatMedicineRepository.findAllByCreatedAt(Weekend.valueOf(dayOfWeek.toString()),
+                now);
 
         //오늘 먹어야 할 약 조회
-        List<TakeMedicine> takeMedicine = takeMedicineRepository.findAllByCreatedAt(Weekend.valueOf(dayOfWeek.toString()), now);
+        List<TakeMedicine> takeMedicine = takeMedicineRepository.findAllByCreatedAt(
+                Weekend.valueOf(dayOfWeek.toString()), now);
 
         int success = 0;
         int sum = 0;
@@ -156,9 +162,8 @@ public class EatMedicineService {
         for (TakeMedicine medicine : takeMedicine) {
             sum += medicine.getMedicine().getMedicineCost() * medicine.getAmounts();
         }
-        System.out.println(success + " " + sum);
-        EdgeData data = new EdgeData();
 
+        EdgeData data = new EdgeData();
         EdgeData.Tag SuccessCost = new Tag();
         {
             SuccessCost.DeviceId = "MediCheck";
@@ -183,7 +188,7 @@ public class EatMedicineService {
         {
             TotalCost.DeviceId = "MediCheck";
             TotalCost.TagName = "TotalCost";
-            TotalCost.Value = 100000;
+            TotalCost.Value = 10000;
         }
         data.TagList.add(TotalCost);
         data.Timestamp = new Date();
@@ -192,8 +197,16 @@ public class EatMedicineService {
         return "데이터 전송 완료";
     }
 
-    public List<EatMedicine> selectAllEatMedicine() {
-        return eatMedicineRepository.findAll();
+    public List<EatMedicineRes> selectAllEatMedicine() {
+        List<EatMedicine> eatMedicines = eatMedicineRepository.findAll();
+        List<EatMedicineRes> eatMedicineRes = new ArrayList<>();
+
+        for (int i = 0; i < eatMedicines.size(); i++) {
+            eatMedicineRes.add(new EatMedicineRes(takeMedicineRepository.findByIdWithMedicine(eatMedicines.get(i).getTakeMedicine().getId())
+                    ,eatMedicines.get(i)));
+        }
+
+        return eatMedicineRes;
     }
 
     @Transactional

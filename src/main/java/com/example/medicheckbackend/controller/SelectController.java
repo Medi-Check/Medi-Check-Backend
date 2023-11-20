@@ -1,6 +1,7 @@
 package com.example.medicheckbackend.controller;
 
 import com.example.medicheckbackend.domain.eatmedicine.EatMedicine;
+import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineResponseDto.EatMedicineRes;
 import com.example.medicheckbackend.domain.medicine.Medicine;
 import com.example.medicheckbackend.domain.member.Member;
 import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
@@ -41,7 +42,7 @@ public class SelectController {
     }
 
     @GetMapping("/eatMedicine")
-    public ResponseEntity<List<EatMedicine>> selectAllEatMedicine() {
+    public ResponseEntity<List<EatMedicineRes>> selectAllEatMedicine() {
         return ResponseEntity.ok(eatMedicineService.selectAllEatMedicine());
     }
 

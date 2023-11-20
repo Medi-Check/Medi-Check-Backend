@@ -13,8 +13,7 @@ public class TakeMedicineRequestDto {
         private Weekend[] week;
         private String medicineName;
         private String memberName;
-        private int[] hour;
-        private int[] minute;
+        private String[] time;
         private int takeAmount;
     }
 

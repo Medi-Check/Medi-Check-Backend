@@ -19,6 +19,7 @@ public class MedicineResponseDto {
         private String expirationDate;
         private int medicineContainer;
         private int amounts;
+        private String imagUrl;
         private boolean takeMedicine;
 
         public MedicineRes(Medicine medicine, boolean takeMedicine) {
@@ -28,6 +29,7 @@ public class MedicineResponseDto {
             this.expirationDate = medicine.getExpirationDate();
             this.medicineContainer = medicine.getMedicineContainer();
             this.amounts = medicine.getAmount();
+            this.imagUrl = medicine.getImageUrl();
             this.takeMedicine = takeMedicine;
         }
     }
