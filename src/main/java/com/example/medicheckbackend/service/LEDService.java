@@ -25,11 +25,11 @@ public class LEDService {
         client.newCall(request).execute();
     }
 
-    public void OffLED() throws IOException {
+    public void OffLED(int num) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder httpBuilder = HttpUrl.get("http://yuno.hopto.org:5000/led-off").newBuilder();
-        httpBuilder.addQueryParameter("led", String.valueOf(15));
+        httpBuilder.addQueryParameter("led", String.valueOf((int) Math.pow(2, num-1)));
 
         Request request = new Request.Builder()
                 .get()

@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 @AllArgsConstructor
@@ -48,6 +49,8 @@ public class TakeMedicine extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    private boolean status;
+
     public TakeMedicine(Weekend week, int hour, int minute, int amounts, Medicine medicine, Member member) {
         this.week = week;
         this.hour = hour;
@@ -55,5 +58,15 @@ public class TakeMedicine extends BaseTimeEntity {
         this.amounts = amounts;
         this.medicine = medicine;
         this.member = member;
+    }
+
+    @Transactional
+    public void setStatusTrue() {
+        this.status = true;
+    }
+
+    @Transactional
+    public void setStatusFalse() {
+        this.status = false;
     }
 }

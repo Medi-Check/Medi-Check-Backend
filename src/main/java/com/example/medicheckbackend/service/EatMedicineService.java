@@ -54,34 +54,14 @@ public class EatMedicineService {
         data.Timestamp = new Date();
         edgeAgent.SendData(data);
 
-        data = new EdgeData();
-        EdgeData.Tag medicineName = new Tag();
-        {
-            medicineName.DeviceId = "MediCheck";
-            medicineName.TagName = "medicineName";
-            medicineName.Value = takeMedicine.getMedicine().getName();
-        }
-        data.TagList.add(medicineName);
-        data.Timestamp = new Date();
-        edgeAgent.SendData(data);
-
-        data = new EdgeData();
-        EdgeData.Tag medicineExpiration = new Tag();
-        {
-            medicineExpiration.DeviceId = "MediCheck";
-            medicineExpiration.TagName = "medicineExpiration";
-            medicineExpiration.Value = takeMedicine.getMedicine().getExpirationDate();
-        }
-        data.TagList.add(medicineName);
-        data.Timestamp = new Date();
-        edgeAgent.SendData(data);
 
         takeMedicine.getMedicine().modifyAmount(takeMedicine.getAmounts());
 
         // 약 먹었는지 체크
         EatMedicine eatMedicine = new EatMedicine(takeMedicine, eatMedicineInfo.getChecked());
         eatMedicineRepository.save(eatMedicine);
-        ledService.OffLED();
+
+        ledService.OffLED(takeMedicine.getMedicine().getMedicineContainer());
         return eatMedicine.getId();
     }
 
@@ -163,7 +143,10 @@ public class EatMedicineService {
             sum += medicine.getMedicine().getMedicineCost() * medicine.getAmounts();
         }
 
+
         EdgeData data = new EdgeData();
+
+
         EdgeData.Tag SuccessCost = new Tag();
         {
             SuccessCost.DeviceId = "MediCheck";
@@ -178,7 +161,7 @@ public class EatMedicineService {
         {
             FailCost.DeviceId = "MediCheck";
             FailCost.TagName = "FailCost";
-            FailCost.Value = 1000;
+            FailCost.Value = 6000;
         }
         data.TagList.add(FailCost);
         data.Timestamp = new Date();

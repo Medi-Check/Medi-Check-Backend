@@ -44,8 +44,8 @@ public class TakeMedicineController {
      */
     @Operation(summary = "약 일정 요일별로 조회")
     @GetMapping("/medicine/week")
-    public ResponseEntity<List<TakeMedicineRes>> selectWeekSchedule(@RequestBody TakeMedicineWeek takeMedicineWeek) {
-        return ResponseEntity.ok(takeMedicineService.selectWeekSchedule(takeMedicineWeek));
+    public ResponseEntity<List<TakeMedicineRes>> selectWeekSchedule(@RequestParam String week, String memberName) {
+        return ResponseEntity.ok(takeMedicineService.selectWeekSchedule(week, memberName));
     }
 
     /**
@@ -64,5 +64,10 @@ public class TakeMedicineController {
     @GetMapping("/medicine/take/schedules")
     public ResponseEntity<List<TakeMedicineList>> selectMedicineList() {
         return ResponseEntity.ok(takeMedicineService.selectMedicineList());
+    }
+
+    @PostMapping("/medicine/take/false")
+    public ResponseEntity<String> modifyMedicineFalse(@RequestParam Long takeMedicineId) {
+        return ResponseEntity.ok(takeMedicineService.modifyMedicineFalse(takeMedicineId));
     }
 }

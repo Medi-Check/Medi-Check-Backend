@@ -13,6 +13,7 @@ import com.example.medicheckbackend.repository.MemberRepository;
 import com.example.medicheckbackend.repository.TakeMedicineRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -55,10 +56,10 @@ public class TakeMedicineService {
                 .collect(Collectors.toList());
     }
 
-    public List<TakeMedicineRes> selectWeekSchedule(TakeMedicineWeek takeMedicineWeek) {
-        Member member = memberRepository.findMemberByNickName(takeMedicineWeek.getMemberName());
+    public List<TakeMedicineRes> selectWeekSchedule(String week, String memberName) {
+        Member member = memberRepository.findMemberByNickName(memberName);
 
-        return takeMedicineRepository.findByWeekAndMember(Weekend.valueOf(String.valueOf(takeMedicineWeek.getWeek())), member)
+        return takeMedicineRepository.findByWeekAndMember(Weekend.valueOf(week), member)
                 .stream()
                 .map(TakeMedicineRes::new)
                 .collect(Collectors.toList());
@@ -94,5 +95,12 @@ public class TakeMedicineService {
     public String deleteTakeMedicineById(Long takeMedicineId) {
         takeMedicineRepository.findById(takeMedicineId);
         return "약 일정 삭제 완료";
+    }
+
+    @Transactional
+    public String modifyMedicineFalse(Long takeMedicineId) {
+        TakeMedicine takeMedicine = takeMedicineRepository.findById(takeMedicineId).orElseThrow();
+        takeMedicine.setStatusFalse();
+        return "약 일정 확인";
     }
 }

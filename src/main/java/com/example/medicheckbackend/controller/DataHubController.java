@@ -4,6 +4,7 @@ import com.example.medicheckbackend.service.DataHubService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -16,5 +17,11 @@ public class DataHubController {
     @PostMapping("/send/dataHub")
     public void sendDataHub() {
         dataHubService.sendData();
+    }
+
+    @Operation(summary = "eCost, nCost 전송")
+    @PostMapping("/send/expirationCost")
+    public void sendExpirationCost(@RequestParam int eCost, @RequestParam int nCost) {
+        dataHubService.sendExpirationCost(eCost, nCost);
     }
 }

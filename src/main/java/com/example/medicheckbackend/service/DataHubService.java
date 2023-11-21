@@ -66,4 +66,31 @@ public class DataHubService {
         data.Timestamp = new Date();
         edgeAgent.SendData(data);
     }
+
+    /**
+     * 유통기한이 지난 비용을 조회
+     */
+    public void sendExpirationCost (int eCost, int nCost) {
+        EdgeData data = new EdgeData();
+
+        EdgeData.Tag ExpirationCost = new Tag();
+        {
+            ExpirationCost.DeviceId = "MediCheck";
+            ExpirationCost.TagName = "ExpirationCost";
+            ExpirationCost.Value = eCost;
+        }
+        data.TagList.add(ExpirationCost);
+        data.Timestamp = new Date();
+        edgeAgent.SendData(data);
+
+        EdgeData.Tag nowCost = new Tag();
+        {
+            ExpirationCost.DeviceId = "MediCheck";
+            ExpirationCost.TagName = "nowCost";
+            ExpirationCost.Value = nCost;
+        }
+        data.TagList.add(nowCost);
+        data.Timestamp = new Date();
+        edgeAgent.SendData(data);
+    }
 }

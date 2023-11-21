@@ -21,7 +21,7 @@ public class TakeMedicineRequestDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class TakeMedicineWeek {
-        private Weekend week;
+        private String week;
         private String memberName;
     }
 }

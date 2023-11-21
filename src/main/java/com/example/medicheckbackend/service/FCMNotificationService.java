@@ -20,6 +20,7 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -29,11 +30,13 @@ public class FCMNotificationService {
     private final TakeMedicineRepository takeMedicineRepository;
     private final LEDService ledService;
 
+    @Transactional
     @Scheduled(cron = "0 * * * * ?")
     public String sendNotificationByToken() {
 
         List<TakeMedicine> allByMember = takeMedicineRepository.findAll();
 
+        List<TakeMedicine> nowTakeMedicine = new ArrayList<>();
         DayOfWeek dayOfWeek = LocalDateTime.now().getDayOfWeek();
         int hour = LocalDateTime.now().getHour();
         int minute = LocalDateTime.now().getMinute();
@@ -49,7 +52,7 @@ public class FCMNotificationService {
                     && takeMedicine.getHour() == hour) {
                 temp = takeMedicine.getMedicine().getName() + " " + takeMedicine.getAmounts() + "개 ";
                 body.append(temp);
-
+                nowTakeMedicine.add(takeMedicine);
                 if (!takeMedicines.containsKey(takeMedicine.getMember())) {
                     takeMedicines.put(takeMedicine.getMember(), body);
                 } else {
@@ -69,6 +72,8 @@ public class FCMNotificationService {
                     && takeMedicine.getMinute() == minute && takeMedicine.getHour() == hour) {
                 temp = takeMedicine.getMedicine().getName() + " " + takeMedicine.getAmounts() + "개 ";
                 body.append(temp);
+
+                nowTakeMedicine.add(takeMedicine);
                 if (!takeMedicines.containsKey(takeMedicine.getMember())) {
                     takeMedicines.put(takeMedicine.getMember(), body);
                 } else {
@@ -98,6 +103,9 @@ public class FCMNotificationService {
                         .build();
                 try {
                     firebaseMessaging.send(message);
+                    for (int i = 0; i < nowTakeMedicine.size(); i++) {
+                        nowTakeMedicine.get(i).setStatusTrue();
+                    }
                     ledService.OnLED(LedMap.get(member));
                     return "알림을 성공적으로 전송했습니다. targetUserId=" + member.getId();
                 } catch (FirebaseMessagingException e) {
