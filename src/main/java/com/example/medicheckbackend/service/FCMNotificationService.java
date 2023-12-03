@@ -1,8 +1,10 @@
 package com.example.medicheckbackend.service;
 
 import com.example.medicheckbackend.domain.member.Member;
+import com.example.medicheckbackend.domain.member.dto.NotificationDto.NotificationInfoHan;
 import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
 import com.example.medicheckbackend.repository.TakeMedicineRepository;
+import com.google.cloud.storage.NotificationInfo;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
@@ -118,10 +120,10 @@ public class FCMNotificationService {
         return "전송 종료";
     }
 
-    public String sendTemp() throws FirebaseMessagingException {
+    public String sendTemp(NotificationInfoHan notificationInfoHan) throws FirebaseMessagingException {
         Notification notification = Notification.builder()
-                .setTitle("카톡봐라")
-                .setBody("경수야 잘보고 있냐?")
+                .setTitle(notificationInfoHan.getTitle())
+                .setBody(notificationInfoHan.getMessageHan())
                 .build();
 
         Message message = Message.builder()
