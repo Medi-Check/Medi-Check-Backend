@@ -2,18 +2,15 @@ package com.example.medicheckbackend.service;
 
 import com.example.medicheckbackend.domain.member.Member;
 import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
-import com.example.medicheckbackend.repository.MemberRepository;
 import com.example.medicheckbackend.repository.TakeMedicineRepository;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
-import com.google.storage.v2.NotificationOrBuilder;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

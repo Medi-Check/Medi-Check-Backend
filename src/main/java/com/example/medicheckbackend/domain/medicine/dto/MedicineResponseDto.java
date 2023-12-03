@@ -13,6 +13,7 @@ public class MedicineResponseDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class MedicineRes {
+        private Long medicineId;
         private String medicineName;
         private String information;
         private String makeDate;
@@ -23,6 +24,7 @@ public class MedicineResponseDto {
         private boolean takeMedicine;
 
         public MedicineRes(Medicine medicine, boolean takeMedicine) {
+            this.medicineId = medicine.getId();
             this.medicineName = medicine.getName();
             this.information = medicine.getInformation();
             this.makeDate = medicine.getMakeDate();
@@ -32,5 +34,15 @@ public class MedicineResponseDto {
             this.imagUrl = medicine.getImageUrl();
             this.takeMedicine = takeMedicine;
         }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MedicineContainerRes {
+        private boolean first;
+        private boolean second;
+        private boolean third;
+        private boolean fourth;
     }
 }

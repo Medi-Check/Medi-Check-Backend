@@ -22,6 +22,7 @@ public class TakeMedicineResponseDto {
         private int amounts;
         private String medicineImgUrl;
         private boolean status;
+        private int medicineContainerId;
 
         public TakeMedicineRes(TakeMedicine takeMedicine) {
             this.medicineName = takeMedicine.getMedicine().getName();
@@ -32,6 +33,7 @@ public class TakeMedicineResponseDto {
             this.amounts = takeMedicine.getAmounts();
             this.medicineImgUrl = takeMedicine.getMedicine().getImageUrl();
             this.status = takeMedicine.isStatus();
+            this.medicineContainerId = takeMedicine.getMedicine().getMedicineContainer();
         }
     }
 

@@ -7,12 +7,8 @@ import com.example.medicheckbackend.domain.eatmedicine.EatMedicine;
 import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineRequestDto.EatMedicineInfo;
 import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineRequestDto.HealthRateInfo;
 import com.example.medicheckbackend.domain.eatmedicine.dto.EatMedicineResponseDto.EatMedicineRes;
-import com.example.medicheckbackend.domain.medicine.Medicine;
-import com.example.medicheckbackend.domain.member.Member;
 import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
 import com.example.medicheckbackend.repository.EatMedicineRepository;
-import com.example.medicheckbackend.repository.MedicineRepository;
-import com.example.medicheckbackend.repository.MemberRepository;
 import com.example.medicheckbackend.repository.TakeMedicineRepository;
 import java.io.IOException;
 import java.time.DayOfWeek;
@@ -21,7 +17,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -37,12 +32,12 @@ public class EatMedicineService {
     private final TakeMedicineRepository takeMedicineRepository;
     private final LEDService ledService;
 
-
     @Transactional
     public Long checkMedicine(EatMedicineInfo eatMedicineInfo) throws IOException {
 
         TakeMedicine takeMedicine = takeMedicineRepository.findByIdWithMedicine(eatMedicineInfo.getTakeMedicineId());
 
+        // 복용 비용 체크
         EdgeData data = new EdgeData();
         EdgeData.Tag MedicineCheck = new Tag();
         {
@@ -54,7 +49,39 @@ public class EatMedicineService {
         data.Timestamp = new Date();
         edgeAgent.SendData(data);
 
+        EdgeData.Tag MedicineName = new Tag();
+        {
+            MedicineName.DeviceId = "MediCheck";
+            MedicineName.TagName = "medicineName";
+            MedicineName.Value = takeMedicine.getMedicine().getName();
+        }
+        data.TagList.add(MedicineName);
+        data.Timestamp = new Date();
+        edgeAgent.SendData(data);
 
+        // 복용 비용 올림
+        EdgeData.Tag SuccessCost = new Tag();
+        {
+            SuccessCost.DeviceId = "MediCheck";
+            SuccessCost.TagName = "SuccessCost";
+            SuccessCost.Value = 4000 + takeMedicine.getMedicine().getMedicineCost();
+        }
+        data.TagList.add(SuccessCost);
+        data.Timestamp = new Date();
+        edgeAgent.SendData(data);
+
+        EdgeData.Tag FailCost = new Tag();
+        {
+            FailCost.DeviceId = "MediCheck";
+            FailCost.TagName = "FailCost";
+            FailCost.Value = 6000 - takeMedicine.getMedicine().getMedicineCost();
+        }
+        data.TagList.add(FailCost);
+        data.Timestamp = new Date();
+        edgeAgent.SendData(data);
+
+        sendSuccess();
+        sendFail();
         takeMedicine.getMedicine().modifyAmount(takeMedicine.getAmounts());
 
         // 약 먹었는지 체크
@@ -70,11 +97,12 @@ public class EatMedicineService {
     public void sendSuccess() {
         EdgeData data = new EdgeData();
         Integer success = eatMedicineRepository.countByCheckedIsSuccess();
+
         EdgeData.Tag MedicineCheck = new Tag();
         {
             MedicineCheck.DeviceId = "MediCheck";
             MedicineCheck.TagName = "Success";
-            MedicineCheck.Value = 30;
+            MedicineCheck.Value = success;
         }
         data.TagList.add(MedicineCheck);
         data.Timestamp = new Date();
@@ -90,7 +118,7 @@ public class EatMedicineService {
         {
             MedicineCheck.DeviceId = "MediCheck";
             MedicineCheck.TagName = "Fail";
-            MedicineCheck.Value = 5;
+            MedicineCheck.Value = fail;
         }
         data.TagList.add(MedicineCheck);
         data.Timestamp = new Date();
@@ -143,9 +171,7 @@ public class EatMedicineService {
             sum += medicine.getMedicine().getMedicineCost() * medicine.getAmounts();
         }
 
-
         EdgeData data = new EdgeData();
-
 
         EdgeData.Tag SuccessCost = new Tag();
         {

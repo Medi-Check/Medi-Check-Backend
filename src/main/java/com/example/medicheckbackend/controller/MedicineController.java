@@ -1,6 +1,7 @@
 package com.example.medicheckbackend.controller;
 
 import com.example.medicheckbackend.domain.medicine.dto.MedicineRequestDto.MedicineInfo;
+import com.example.medicheckbackend.domain.medicine.dto.MedicineResponseDto.MedicineContainerRes;
 import com.example.medicheckbackend.domain.medicine.dto.MedicineResponseDto.MedicineRes;
 import com.example.medicheckbackend.service.MedicineService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,5 +38,22 @@ public class MedicineController {
         return ResponseEntity.ok(medicineService.selectAllMedicineWithTake(memberName));
     }
 
+    /**
+     * 약 container 등록
+     */
+    @Operation(summary = "약통 등록")
+    @PostMapping("/medicine/container")
+    public ResponseEntity<String> updateMedicineContainer(@RequestParam Long medicineId, int containerId){
+        return ResponseEntity.ok(medicineService.updateMedicineContainer(containerId, medicineId));
+    }
+
+    /**
+     * 약 Container 정보 알기
+     */
+    @Operation(summary = "모든 약통 정보 확인")
+    @GetMapping("/medicine/container")
+    public ResponseEntity<MedicineContainerRes> selectAllMedicineContainer() {
+        return ResponseEntity.ok(medicineService.selectAllMedicineContainer());
+    }
 
 }

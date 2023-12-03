@@ -43,14 +43,14 @@ public class Medicine extends BaseTimeEntity {
     private String imageUrl;
 
     public Medicine(String name, String makeDate, String expirationDate, int amount, String information,
-                    int medicineContainer, int medicineCost) {
+                     int medicineCost, String imageUrl) {
         this.name = name;
         this.makeDate = makeDate;
         this.expirationDate = expirationDate;
         this.amount = amount;
         this.information = information;
-        this.medicineContainer = medicineContainer;
         this.medicineCost = medicineCost;
+        this.imageUrl = imageUrl;
     }
 
     public void modifyAmount(int amount) {
@@ -60,4 +60,9 @@ public class Medicine extends BaseTimeEntity {
     public void updateImgUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public void updateContainer(int medicineContainer) {
+        this.medicineContainer = medicineContainer;
+    }
+
 }

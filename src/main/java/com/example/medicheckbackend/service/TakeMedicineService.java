@@ -5,7 +5,6 @@ import com.example.medicheckbackend.domain.medicine.Medicine;
 import com.example.medicheckbackend.domain.member.Member;
 import com.example.medicheckbackend.domain.takemedicine.TakeMedicine;
 import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineRequestDto.TakeMedicineInfo;
-import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineRequestDto.TakeMedicineWeek;
 import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineResponseDto.TakeMedicineList;
 import com.example.medicheckbackend.domain.takemedicine.dto.TakeMedicineResponseDto.TakeMedicineRes;
 import com.example.medicheckbackend.repository.MedicineRepository;
@@ -13,7 +12,6 @@ import com.example.medicheckbackend.repository.MemberRepository;
 import com.example.medicheckbackend.repository.TakeMedicineRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -62,6 +60,12 @@ public class TakeMedicineService {
         return takeMedicineRepository.findByWeekAndMember(Weekend.valueOf(week), member)
                 .stream()
                 .map(TakeMedicineRes::new)
+                .sorted((t1, t2) -> {
+                    if(t1.isStatus() && !t2.isStatus()) return -1;
+                    if(!t1.isStatus() && t2.isStatus()) return  1;
+                    if(t1.getHour() == t2.getHour()) return t1.getMinute() - t2.getMinute();
+                    return t1.getHour() - t2.getHour();
+                })
                 .collect(Collectors.toList());
     }
 
@@ -102,5 +106,14 @@ public class TakeMedicineService {
         TakeMedicine takeMedicine = takeMedicineRepository.findById(takeMedicineId).orElseThrow();
         takeMedicine.setStatusFalse();
         return "약 일정 확인";
+    }
+
+    public List<TakeMedicineRes> getTakeMedicineRes() {
+        List<TakeMedicine> takeMedicine = takeMedicineRepository.findAll();
+
+        return takeMedicine
+                .stream()
+                .map(TakeMedicineRes::new)
+                .collect(Collectors.toList());
     }
 }

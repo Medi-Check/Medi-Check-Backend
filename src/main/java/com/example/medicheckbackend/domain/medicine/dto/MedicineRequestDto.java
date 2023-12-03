@@ -15,8 +15,8 @@ public class MedicineRequestDto {
         private String expirationDate;
         private Integer amount;
         private String information;
-        private int medicineContainer;
         private int medicineCost;
+        private String imgUrl;
     }
 
 }
