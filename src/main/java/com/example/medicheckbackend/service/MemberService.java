@@ -25,7 +25,7 @@ public class MemberService {
         Member member;
         if (multipartFile == null) {
             member = new Member(memberInfo.getNickName(), memberInfo.getFamilyCode(),
-                    "https://heronmovie.s3.ap-northeast-2.amazonaws.com/58f07179-e23b-45ff-9f9c-3368092f4054.png");
+                    "https://heronmovie.s3.ap-northeast-2.amazonaws.com/7b331caf-413b-44b1-8f18-b66786ab2bc0.jpg");
         } else {
             List<S3Result> s3Results = s3Service.uploadFile(multipartFile);
             member = new Member(memberInfo.getNickName(), memberInfo.getFamilyCode(), s3Results.get(0).getImgUrl());
