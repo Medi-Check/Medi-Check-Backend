@@ -105,14 +105,14 @@ public class FCMNotificationService {
                     for (int i = 0; i < nowTakeMedicine.size(); i++) {
                         nowTakeMedicine.get(i).setStatusTrue();
                     }
-                    // ledService.OnLED(LedMap.get(member));
+                    ledService.OnLED(LedMap.get(member));
                     return "알림을 성공적으로 전송했습니다. targetUserId=" + member.getId();
                 } catch (FirebaseMessagingException e) {
                     e.printStackTrace();
                     return "알림 보내기를 실패하였습니다. targetUserId=" + member.getId();
-                } //catch (IOException e) {
-                   // throw new RuntimeException(e);
-                //}
+                } catch (IOException e) {
+                   throw new RuntimeException(e);
+                }
             } else {
                 return "서버에 저장된 해당 유저의 FirebaseToken이 존재하지 않습니다. targetUserId=" + member.getId();
             }
